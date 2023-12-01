@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components{
+    .active-tab{
+        @apply bg-[#6AB187] rounded-full text-white py-8;
+    }
+    .hover-tab{
+        @apply bg-gray-300 duration-100 rounded-full ;
+    }
+    .inactive-tab{
+        @apply flex items-center gap-3 px-24 py-8;
+    }
+}
+
