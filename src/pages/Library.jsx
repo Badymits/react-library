@@ -1,75 +1,22 @@
-import {useState, useEffect} from 'react'
 
-import getUserList from '../axios/getUserList'
+import { Outlet } from 'react-router-dom';
+
+
 import PageHeader from '../components/PageHeader'
 
 const Library = () => {
   
-  const [currentTab, setcurrentTab] = useState('popular')
-  const [userList, setUserList] = useState([])
-
-  useEffect(() => {
-    getUserList().then(res => {
-      setUserList(res.data)
-    })
-  }, [])
+//   const [currentTab, setcurrentTab] = useState('popular')
 
   return (
-    <section className=''>
-        <div className='pb-24'>
+    <section>
+        <div className='pb-24 w-full m-0 p-0'>
             <PageHeader />
         </div>
-        {/* <div>
-            <h1 className='text-2xl font-bold underline'>
-            Hello World!!!
-            </h1>
-            <p>List of users:</p>
-            {userList.map((user, id) => (
-                <ul key={id}>
-                    <li >{user.email}</li>
-                </ul>
-            ))}
-        </div> */}
-        <div className=''>
-            <div className='h-[250px] '>
-                <h1 className='text-2xl font-bold underline'>
-                Hello World!!!
-                </h1>
-                
-            </div>
-            <div className='h-[250px] bg-green-100'>
-                <h1 className='text-2xl font-bold underline'>
-                Hello World!!!
-                </h1>
-                
-            </div>
-            <div className='h-[250px] bg-green-100'>
-                <h1 className='text-2xl font-bold underline'>
-                Hello World!!!
-                </h1>
-                
-            </div>
-            <div className='h-[250px] bg-green-100'>
-                <h1 className='text-2xl font-bold underline'>
-                Hello World!!!
-                </h1>
-                
-            </div>
-            <div className='h-[250px] bg-green-100'>
-                <h1 className='text-2xl font-bold underline'>
-                Hello World!!!
-                </h1>
-                
-            </div>
-            <div className='h-[250px] bg-green-100'>
-                <h1 className='text-2xl font-bold underline'>
-                Hello World!!!
-                </h1>
-                
-            </div>
+        <div>
+            {/* Nested Routes will render here */}
+            <Outlet />
         </div>
-        
-        
     </section>
   )
 }
