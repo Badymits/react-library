@@ -27,7 +27,7 @@ export const AuthProvider = ({children}) => {
         localStorage.getItem('auth_token') ? jwtDecode(localStorage.getItem('auth_token')) : null
     )
 
-    // to be used for tailwind class, if true, use classes for a loggedin user else use classes for log in and register page
+    // to be used for tailwind class, if true, use css classes for a loggedin user else use classes for log in and register page
     const [loggedIn, setLoggedIn] = useState(
       localStorage.getItem('auth_token') ? true : false
     )
@@ -39,7 +39,7 @@ export const AuthProvider = ({children}) => {
     let registerUser = async (e) => {
         e.preventDefault();
 
-        if(validate()){
+        if(validate(e)){
       
             await axios({
               method: 'POST',
@@ -73,7 +73,7 @@ export const AuthProvider = ({children}) => {
           }
     }
 
-    const validate = () => {
+    const validate = (e) => {
         let isValid = true
         if (formState.password === formState.password2){
           console.log('match')
