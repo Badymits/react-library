@@ -8,7 +8,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { MdOutlineFeed } from "react-icons/md";
 import { ImProfile } from "react-icons/im";
 import { CiSettings } from "react-icons/ci";
-import { BiLogOut, BiLogIn  } from "react-icons/bi";
+import { BiLogOut  } from "react-icons/bi";
 
 const Sidebar = () => {
 
@@ -57,7 +57,7 @@ const Sidebar = () => {
         
             <div className='text-xl space-y-2'>
                 <div className=' '>
-                    <NavLink to='/' className={({isActive, isTransitioning}) => 
+                    <NavLink to='library' className={({isActive, isTransitioning}) => 
                         [isActive ?
                         'flex items-center gap-3 px-24 active-tab' :
                         'inactive-tab hover:hover-tab',
