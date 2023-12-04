@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import { CiSearch } from "react-icons/ci";
 import { GiShoppingCart } from "react-icons/gi";
 
-const PageHeader = ({ currenTab }) => {
+const PageHeader = () => {
 
   const [navbar, setNavbar] = useState(false)
 
@@ -20,23 +20,40 @@ const PageHeader = ({ currenTab }) => {
     
 
   return (
-    <header className={navbar ? "fixed w-[878px] h-[80px] bg-white/10 backdrop-blur-md border-b-2 border-gray-400  transition-all" : "fixed w-[878px] h-[80px] " }>
+    <header className={navbar ? "w-[878px] h-[80px] bg-white/10 backdrop-blur-md border-b-2 border-gray-400  transition-all" : "bg-red-100 w-full h-[80px] " }>
         <div className="flex items-center justify-between h-full">
             <div className="flex items-center justify-start gap-[6rem] w-[50%]">
                 <div>
-                    <Link to='/my-library'>
+                    <NavLink className={({isActive, isTransitioning}) => 
+                        [isActive ?
+                        'active-tab-header' :
+                        '',
+                        isTransitioning ? 
+                        'transitioning' :
+                        ''
+                        ].join(" ")} 
+                        to='my-library'
+                    >
                         My Library 
-                    </Link>
+                    </NavLink>
                 </div>
                 <div>
-                    <Link to='/'>
-                        Fiction
-                    </Link>  
+                    <NavLink className={({isActive, isTransitioning}) => 
+                        [isActive ?
+                        'active-tab-header' :
+                        '',
+                        isTransitioning ? 
+                        'transitioning' :
+                        ''
+                        ].join(" ")} 
+                        to='checkout'>
+                        Check Out
+                    </NavLink>  
                 </div>
                 <div>
-                    <Link>
+                    <NavLink>
                         Business
-                    </Link>
+                    </NavLink>
                 </div>
             </div>
             <div className="flex w-[50%] items-center justify-between mx-2">
