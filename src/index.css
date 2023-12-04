@@ -12,5 +12,9 @@
     .inactive-tab{
         @apply flex items-center gap-3 px-24 py-8;
     }
+
+    .active-tab-header{
+        @apply underline
+    }
 }
 
