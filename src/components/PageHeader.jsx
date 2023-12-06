@@ -8,8 +8,8 @@ const PageHeader = () => {
   const [navbar, setNavbar] = useState(false)
 
   const handleNavbar = () => {
-    console.log(window.scrollY)
-    if (window.scrollY >= 100){
+
+    if (window.scrollY >= 50){
         setNavbar(true)
     } else {
         setNavbar(false)
@@ -17,12 +17,11 @@ const PageHeader = () => {
   }
 
   window.addEventListener('scroll', handleNavbar)
-    
 
   return (
-    <header className={navbar ? "w-[878px] h-[80px] bg-white/10 backdrop-blur-md border-b-2 border-gray-400  transition-all" : "bg-red-100 w-full h-[80px] " }>
+    <header className={navbar ? "h-[80px] px-6 bg-white/10 backdrop-blur-md border-gray-400  transition-all" : "px-6 w-full h-[80px] " }>
         <div className="flex items-center justify-between h-full">
-            <div className="flex items-center justify-start gap-[6rem] w-[50%]">
+            <div className="flex items-center justify-start gap-[4rem] w-[50%] text-lg ">
                 <div>
                     <NavLink className={({isActive, isTransitioning}) => 
                         [isActive ?
@@ -31,10 +30,12 @@ const PageHeader = () => {
                         isTransitioning ? 
                         'transitioning' :
                         ''
-                        ].join(" ")} 
-                        to='my-library'
+                        ].join(" ")
+
+                    } 
+                        to='browse'
                     >
-                        My Library 
+                        Browse 
                     </NavLink>
                 </div>
                 <div>
@@ -46,17 +47,26 @@ const PageHeader = () => {
                         'transitioning' :
                         ''
                         ].join(" ")} 
-                        to='checkout'>
-                        Check Out
+                        to='my-library'>
+                        My Library
                     </NavLink>  
                 </div>
                 <div>
-                    <NavLink>
+                    <NavLink className={({isActive, isTransitioning}) => 
+                        [isActive ?
+                        'active-tab-header' :
+                        '',
+                        isTransitioning ? 
+                        'transitioning' :
+                        ''
+                        ].join(" ")}
+                        to='checkout'
+                        >
                         Business
                     </NavLink>
                 </div>
             </div>
-            <div className="flex w-[50%] items-center justify-between mx-2">
+            <div className="flex w-[50%] items-center justify-between mx-2 ">
                 <div className="relative">
                     <CiSearch className="absolute top-1 right-1 text-lg"/>
                     <input type="text" placeholder="Search for title, author, genre..." className="w-[350px] border border-slate-500 rounded-lg" />
