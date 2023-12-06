@@ -11,6 +11,7 @@ import { AuthContext } from './context/AuthContext'
 import LoginPage from './pages/LoginPage';
 import MyLibrary from './pages/pagetab/MyLibrary';
 import CheckOut from './pages/pagetab/CheckOut';
+import Browse from './pages/pagetab/Browse';
 
 const MainComponent = () => {
 
@@ -31,7 +32,7 @@ const MainComponent = () => {
                 </div>
               </div>
 
-              <div className=' col-span-2 px-6 w-full  ' >
+              <div className=' col-span-2 ' >
                 
                 <Routes>
                     {/* elements here requires user authentication */}
@@ -44,7 +45,8 @@ const MainComponent = () => {
                         <Route index element={<Navigate to='library' replace={true}/>}/>
 
                         <Route path='/library' element={<Library />} > 
-                          <Route index element={<Navigate to='my-library' replace={true} />}/>
+                          <Route index element={<Navigate to='browse' replace={true} />}/>
+                          <Route path='browse' element={<Browse />}/>
                           <Route path='my-library' element={<MyLibrary />}/>
                           <Route path='checkout' element={<CheckOut />}/>
                         </Route>
