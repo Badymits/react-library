@@ -50,7 +50,7 @@ const Sidebar = () => {
             </div>
             
             <img src={profile_picture} alt="profile_pic" height={450} width={180} />
-            {user && <p className='text-xl pt-4'>Hello! {user.first_name} </p>}
+            {user && <h1 className='text-xl pt-4'>Hello! {user.first_name} <br /> <p>{user.username}</p> </h1>}
         </div>
         <hr className='w-[300px] block mx-auto border-1 border-[#D9D9D9]'/>
         <nav className='pt-8'>
