@@ -9,11 +9,11 @@ const Library = () => {
 //   const [currentTab, setcurrentTab] = useState('popular')
 
   return (
-    <section>
-        <div className='pb-24 w-full m-0 p-0'>
+    <section className='relative'>
+        <div className=' sticky top-0 w-full  border-b-2 border-gray-400'>
             <PageHeader />
         </div>
-        <div>
+        <div className='px-6 pt-10'>
             {/* Nested Routes will render here */}
             <Outlet />
         </div>
