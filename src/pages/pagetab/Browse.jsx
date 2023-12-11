@@ -1,75 +1,42 @@
-import { useState, useEffect, useRef } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import { useContext } from 'react';
+// import { Swiper, SwiperSlide } from 'swiper/react';
+// import { Navigation, Pagination } from 'swiper/modules';
 
-import getBookList from '../../axios/getBookList';
+
+import { AuthContext } from '../../context/AuthContext';
+import SwiperComponent from '../../components/SwiperComponent';
+
 
 const Browse = () => {
 
-  const [books, setBooks] = useState([])
+  let { books } = useContext(AuthContext)
 
-  const swiperRef = useRef()
+  // let this variable contain the search parameters (to be implemented and optimized later)
+  const bookGenre = ['Computer Science', 'Fiction']
+  const bookGenreFic = [ 'Fiction']
   
+  // filtering nested arrays since books can have multiple genres
+  // will be modified later so it can filter by multiple queries (title, author, and genre)
+  const resultCom = books.filter(book => book.genre.every(b => bookGenre.includes(b.name)))
+  const resultFic = books.filter(book => book.genre.every(b => bookGenreFic.includes(b.name)))
 
-  useEffect(() => {
-    getBookList().then(res => {
-        setBooks(res)
-    })
-  }, [])
 
-console.log(books)
+  
   return (
-    <div>
-      <div className='relative pt-10'>
-        <Swiper
-          spaceBetween={40}
-          slidesPerView={3}
-          loop={true}
-          pagination={{
-            el: '.swiper-custom-pagination',
-            type: "bullets",
-            clickable: true,
-            bulletClass: `swiper-pagination-bullet`,
-            bulletActiveClass: 'bg-[#69b086]',
-            
-          }}
-          modules={[Pagination, Navigation]}
-          onBeforeInit={(swiper) => {
-            swiperRef.current = swiper
-          }}
-          className='px-10 '
-          
-        >
-          <div className=''>
-            <h1>Computer Science</h1>
-            {books.map((book) => (
-              <div key={book.id}>
-                {book.genre.map((item) => (
-                  // conditional rendering
-                  item.name === 'Computer Science' ? (
-                    <SwiperSlide key={book.id}>
-                      <img src={book.book_image} alt={book.title} width={120} height={150} className='object-cover' />
-                      {book.title}
-                    </SwiperSlide>
-                  ) : null
-                ))}
-              </div>
-            ))}
-          </div>
-        </Swiper>
-
-        <div>
-          <button className='absolute -left-5 bottom-[50%] top-[50%] cursor-pointer z-40' onClick={() => swiperRef.current?.slidePrev()}>Prev</button>
-          <button className='absolute -right-5 bottom-[50%] top-[50%] cursor-pointer z-40' onClick={() => swiperRef.current?.slideNext()}>Next</button>
-        </div>
-        <div className='absolute top-0 right-0 '>
-          <div className="swiper-custom-pagination"></div>
-        </div>
+    <div className='h-[100vh]'>
+      <div className='relative pt-10 mb-[15em] '>
+        <SwiperComponent 
+          resultComSci={resultCom}
+          genre='comsci'
+        />  
       </div>
-        
+      <div className='relative pt-10 mb-[15em]'>
+        <SwiperComponent 
+          resultComSci={resultFic}
+          genre='fiction'
+        />
+      </div>
+      
     </div>
   )
 }
