@@ -1,7 +1,9 @@
 import { useContext } from 'react';
-// import { Swiper, SwiperSlide } from 'swiper/react';
-// import { Navigation, Pagination } from 'swiper/modules';
 
+// modules have to be present so items inside navigation and pagination will display properly
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 import { AuthContext } from '../../context/AuthContext';
 import SwiperComponent from '../../components/SwiperComponent';
@@ -20,7 +22,7 @@ const Browse = () => {
   const resultCom = books.filter(book => book.genre.every(b => bookGenre.includes(b.name)))
   const resultFic = books.filter(book => book.genre.every(b => bookGenreFic.includes(b.name)))
 
-
+  
   
   return (
     <div className='h-[100vh]'>
