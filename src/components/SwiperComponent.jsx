@@ -21,8 +21,8 @@ const SwiperComponent = ({
   // for the navigation slides (nextslide and prevslide)
   const swiperRef = useRef()
   return (
-    <div className='swiper-container-1'>
-          <Swiper
+    <div className='swiper-container'>
+        <Swiper
             spaceBetween={40}
             slidesPerView={3}
             modules={[Pagination, Navigation]}
@@ -37,8 +37,7 @@ const SwiperComponent = ({
                 bulletActiveClass: 'bg-[#69b086]',
                 
             }}
-            className='px-10 pt-8 h-[200px] '
-            > 
+            className='px-10 pt-8 h-[200px] '> 
                   
             {
               resultComSci.slice(0,5).map((book) => (
@@ -46,16 +45,13 @@ const SwiperComponent = ({
                   {book.title}
                 </SwiperSlide>
               ))
-            }
-            
-                    
-            </Swiper>
-                
-            <div>
-                <button className='absolute -left-1 bottom-[50%] top-[50%] cursor-pointer z-40' onClick={() => swiperRef.current?.slidePrev()}>Prev</button>
-                <button className='absolute -right-1 bottom-[50%] top-[50%] cursor-pointer z-40' onClick={() => swiperRef.current?.slideNext()}>Next</button>
+            }    
+        </Swiper>  
+            <div >
+                <button className='absolute -left-1 bottom-[50%] top-[50%] cursor-pointer z-[500]' onClick={() => swiperRef.current?.slidePrev()}>Prev</button>
+                <button className='absolute -right-1 bottom-[50%] top-[50%] cursor-pointer z-[500]' onClick={() => swiperRef.current?.slideNext()}>Next</button>
             </div>
-            <h1 className='absolute top-0 text-3xl'>{}</h1>
+            <h1 className='absolute top-0 text-3xl'>{genre}</h1>
             <div className='absolute top-0 right-0'>
                 <div className={`swiper-pagination-${genre}`}></div>
             </div>
