@@ -1,7 +1,9 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { jwtDecode  } from 'jwt-decode';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+
+import getBookList from '../axios/getBookList';
 
 // this context variable/component can be used by any other component that needs the data
 export const AuthContext = createContext();
@@ -17,6 +19,8 @@ export const AuthProvider = ({children}) => {
         password2: '',
       })
 
+    const [books, setBooks] = useState([])
+
     // for both states, we check the local storage for it. 
     // check first if it is present, else just set to null
     const [authTokens, setAuthTokens] = useState( () =>
@@ -31,7 +35,14 @@ export const AuthProvider = ({children}) => {
     const [loggedIn, setLoggedIn] = useState(
       localStorage.getItem('auth_token') ? true : false
     )
+    
+    useEffect(() => {
+      getBookList().then(res => {
+        setBooks(res)
+      })
+    }, [])
 
+    console.log(books)
 
     // will be used to redirect user depending if they are logged in or not
     const navigate = useNavigate()
@@ -127,7 +138,8 @@ export const AuthProvider = ({children}) => {
         loginUser: loginUser,
         logoutUser: logoutUser,
         registerUser: registerUser,
-        loggedIn: loggedIn
+        loggedIn: loggedIn,
+        books: books,
     }
 
     return(
