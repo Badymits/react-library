@@ -15,9 +15,7 @@
     .active-tab-header{
         @apply underline decoration-[#6AB187] decoration-4 underline-offset-4;
     }
-
     .swiper-pagination-bullet{
         @apply h-1 w-3 rounded-none;
     }
 }
-
