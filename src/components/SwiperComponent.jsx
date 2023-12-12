@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/prop-types */
 import {useRef } from 'react'
 
@@ -18,7 +19,6 @@ const SwiperComponent = ({
   if (!resultComSci) return null;
   
   
-  console.log(resultComSci)
   // for the navigation slides (nextslide and prevslide)
   const swiperRef = useRef()
 
@@ -45,7 +45,8 @@ const SwiperComponent = ({
             {
               resultComSci.slice(0,9).map((book) => (
                 <SwiperSlide key={book.id}  className='flex flex-col items-center justify-between h-[400px] text-center gap-4 cursor-pointer pt-2
-                hover:border-2 hover:border-red-200 hover:bg-gray-100 transition-all duration-300'>
+                hover:border-2 hover:border-red-200 hover:bg-gray-100 transition-all duration-300'
+                >
                   <img src={book.book_image} alt={book.title}  className='object-contain max-h-[250px] max-w-[250px]' />
                     
                   <p>{book.title}</p>
