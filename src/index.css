@@ -16,6 +16,9 @@
         @apply underline decoration-[#6AB187] decoration-4 underline-offset-4;
     }
     .swiper-pagination-bullet{
-        @apply h-1 w-3 rounded-none;
+        @apply h-1 w-6 rounded-none bg-gray-500;
+    }
+    .bullet-active-class{
+        @apply bg-green-800;
     }
 }
