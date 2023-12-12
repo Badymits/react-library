@@ -25,19 +25,23 @@ const Browse = () => {
   
   
   return (
-    <div className='h-[100vh]'>
-      <div className='relative pt-10 mb-[15em] '>
+    <div className=''>
+      <div className='relative pt-10 mb-[10em]'>
         <SwiperComponent 
           resultComSci={resultCom}
-          genre='comsci'
+          genre={'ComputerScience'}
+          title='Computer Science'
         />  
       </div>
-      <div className='relative pt-10 mb-[15em]'>
+      <div className='relative pt-10 mb-[10em]'>
         <SwiperComponent 
           resultComSci={resultFic}
-          genre='fiction'
+          genre={'Fiction'}
+          title='Fiction'
         />
       </div>
+      
+      
       
     </div>
   )
