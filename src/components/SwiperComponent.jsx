@@ -27,6 +27,7 @@ const SwiperComponent = ({
         <Swiper
             spaceBetween={35}
             slidesPerView={3}
+            slidesPerGroup={3}
             modules={[Pagination, Navigation]}
             onBeforeInit={(swiper) => {
                 swiperRef.current = swiper
@@ -42,8 +43,8 @@ const SwiperComponent = ({
             className='px-10 pt-8  '> 
                   
             {
-              resultComSci.slice(0,5).map((book) => (
-                <SwiperSlide key={book.id}  className='flex flex-col items-center justify-between h-[400px] text-center gap-4 cursor-pointer
+              resultComSci.slice(0,9).map((book) => (
+                <SwiperSlide key={book.id}  className='flex flex-col items-center justify-between h-[400px] text-center gap-4 cursor-pointer pt-2
                 hover:border-2 hover:border-red-200 hover:bg-gray-100 transition-all duration-300'>
                   <img src={book.book_image} alt={book.title}  className='object-contain max-h-[250px] max-w-[250px]' />
                     
