@@ -28,10 +28,10 @@ const Sidebar = () => {
   if (withoutSidebarRoutes.some((item) => pathname.includes(item))) return null;
 
   return (
-    <div className=''>
+    <div className='h-[100vh]'>
         <div className='flex flex-col items-center justify-center py-4 '>
             <div className='flex items-center justify-center  pb-6 relative'>
-                <h1 className='text-3xl w-[300px] text-center  inline cursor-pointer  pr-[4rem] '>
+                <h1 className='text-3xl w-[300px] text-center  inline cursor-pointer  pr-[4rem] pt-2'>
                     <img src={library_icon} alt="library_icon" height={120} width={60} className='inline-block' />
                     Athenaeum
                 </h1>
