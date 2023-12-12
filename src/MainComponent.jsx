@@ -47,7 +47,6 @@ const MainComponent = () => {
                       <Route path='browse' element={<Browse />}/>
                       <Route path='my-library' element={<MyLibrary />}/>
                       <Route path='checkout' element={<CheckOut />}/>
-                      
                     </Route>
 
                     <Route path='/feed' element={<Feed />} />
@@ -58,7 +57,9 @@ const MainComponent = () => {
             </Routes>
           </div>
           <div className='fixed w-[24.7vw]  right-0 top-0 bottom-0'>
-            <DetailView />
+            <DetailView 
+              loggedIn={loggedIn}
+            />
           </div>
         </div>
     </div>
