@@ -38,6 +38,7 @@ export const AuthProvider = ({children}) => {
       localStorage.getItem('auth_token') ? true : false
     )
     
+    // data coming from backend, set to state to be accessed by library
     useEffect(() => {
       getBookList().then(res => {
         setBooks(res)
