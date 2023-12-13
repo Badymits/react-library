@@ -86,7 +86,6 @@ const PageHeader = () => {
                             className="w-[350px] border border-slate-500 rounded-lg" 
                             value={searchBar}
                             onChange={handleSearchBar}
-                            onSubmit={handleSearch}
                         />
                     </form>
                     
