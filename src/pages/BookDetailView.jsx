@@ -57,7 +57,7 @@ const BookDetailView = ({ title, loggedIn }) => {
               :
               <div className='w-full h-screen pt-[20px] px-6 text-justify '>
                 <h1 className='text-center text-4xl'>Welcome!!</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam sit nemo magni vel, 
+                <p className='pt-10'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam sit nemo magni vel, 
                   dolorum dicta earum. Veniam adipisci eaque rerum excepturi possimus ipsum voluptatem. 
                   Numquam sint voluptates voluptate temporibus aspernatur?</p>
                 <p>more lorem ipsum whit</p>
