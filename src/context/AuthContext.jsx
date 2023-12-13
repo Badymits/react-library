@@ -20,9 +20,11 @@ export const AuthProvider = ({children}) => {
         password: '',
         password2: '',
       })
-
+    
+    // state to hold the list of books
     const [books, setBooks] = useState([])
-
+    
+    // state to hold the book id which is to be used in get request api call
     const [bookId, setBookId] = useState([])
 
     // for both states, we check the local storage for it. 
