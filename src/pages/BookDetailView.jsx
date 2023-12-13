@@ -16,7 +16,6 @@ const BookDetailView = ({ title, loggedIn }) => {
   const [bookDetailComp, setBookDetailComp] = useState()
 
   const closeRightPanel = () => {
-    console.log('tangina mag close ka na')
     setBookDetailComp()
   }
 
