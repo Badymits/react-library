@@ -23,6 +23,8 @@ export const AuthProvider = ({children}) => {
 
     const [books, setBooks] = useState([])
 
+    const [bookId, setBookId] = useState([])
+
     // for both states, we check the local storage for it. 
     // check first if it is present, else just set to null
     const [authTokens, setAuthTokens] = useState( () =>
@@ -143,6 +145,8 @@ export const AuthProvider = ({children}) => {
         registerUser: registerUser,
         loggedIn: loggedIn,
         books: books,
+        bookId: bookId,
+        setBookId: setBookId
     }
 
     return(
