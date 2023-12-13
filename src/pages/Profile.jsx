@@ -2,7 +2,7 @@
 
 const Profile = () => {
   return (
-    <section>
+    <section className="border-x-2">
         <div className='h-[250px] bg-green-100'>
             <h1 className='text-2xl font-bold underline'>
             Hello World!!!

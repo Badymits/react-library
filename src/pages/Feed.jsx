@@ -2,7 +2,7 @@
 
 const Feed = () => {
   return (
-    <section className=''>
+    <section className='border-x-2'>
         <div>
             Feed page biatch
         </div>
