@@ -62,7 +62,7 @@ const PageHeader = () => {
                         ].join(" ")}
                         to='checkout'
                         >
-                        Business
+                        Check Out
                     </NavLink>
                 </div>
             </div>
