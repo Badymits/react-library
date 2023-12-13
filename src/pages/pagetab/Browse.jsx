@@ -22,8 +22,6 @@ const Browse = () => {
   const resultCom = books.filter(book => book.genre.every(b => bookGenre.includes(b.name)))
   const resultFic = books.filter(book => book.genre.every(b => bookGenreFic.includes(b.name)))
 
-  
-  
   return (
     <div className=''>
       <div className='relative pt-10 mb-[10em]'>
@@ -40,9 +38,7 @@ const Browse = () => {
           title='Fiction'
         />
       </div>
-      
-      
-      
+
     </div>
   )
 }
