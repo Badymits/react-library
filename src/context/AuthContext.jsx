@@ -27,6 +27,8 @@ export const AuthProvider = ({children}) => {
     // state to hold the book id which is to be used in get request api call
     const [bookId, setBookId] = useState([])
 
+    const [searchResults, setSearchResults] = useState(null)
+
     // for both states, we check the local storage for it. 
     // check first if it is present, else just set to null
     const [authTokens, setAuthTokens] = useState( () =>
@@ -51,6 +53,12 @@ export const AuthProvider = ({children}) => {
 
     console.log(books)
 
+    let handleSearch = async (e) => {
+      e.preventDefault();
+      // since we are targeting an input value from another component, we need to access it by the input name (i.e. searchbar)
+      console.log(e.target.searchbar.value)
+    } 
+
     // will be used to redirect user depending if they are logged in or not
     const navigate = useNavigate()
 
@@ -73,12 +81,12 @@ export const AuthProvider = ({children}) => {
                 'password': e.target.password.value,
               }) 
             }).then(res => {
-              alert('form submitted')
-              console.log(res.data)
-              console.log(JSON.stringify(jwtDecode(res.data.user_token.access)))
+              // alert('form submitted')
+              // console.log(res.data)
+              // console.log(JSON.stringify(jwtDecode(res.data.user_token.access)))
 
               setAuthTokens(res.data.user_token)
-              setUser(jwtDecode(res.data.user_token.access))
+              setUser(jwtDecode(res.data.user_token.access)) // utilizing jwtdecode package to access the user token claims set in the backend
               setLoggedIn(true)
 
               localStorage.setItem('auth_token', JSON.stringify(res.data.user_token))
@@ -120,7 +128,7 @@ export const AuthProvider = ({children}) => {
             console.log('response: ', res)
             console.log(res.data)
             setAuthTokens(res.data)
-            setUser(jwtDecode(res.data.access))
+            setUser(jwtDecode(res.data.access)) // utilizing jwtdecode package to access the user token claims set in the backend
             setLoggedIn(true)
 
             localStorage.setItem('auth_token', JSON.stringify(res.data))
@@ -148,7 +156,8 @@ export const AuthProvider = ({children}) => {
         loggedIn: loggedIn,
         books: books,
         bookId: bookId,
-        setBookId: setBookId
+        setBookId: setBookId,
+        handleSearch: handleSearch,
     }
 
     return(
