@@ -12,7 +12,8 @@ import LoginPage from './pages/LoginPage';
 import MyLibrary from './pages/pagetab/MyLibrary';
 import CheckOut from './pages/pagetab/CheckOut';
 import Browse from './pages/pagetab/Browse';
-import DetailView from './components/DetailView';
+import BookDetailView from './pages/BookDetailView';
+
 
 const MainComponent = () => {
 
@@ -45,10 +46,10 @@ const MainComponent = () => {
                     <Route path='/library' element={<Library />} > 
                       <Route index element={<Navigate to='browse' replace={true} />}/>
                       <Route path='browse' element={<Browse />}/>
-                      <Route path='my-library' element={<MyLibrary />}/>
+                      <Route path='my-library' element={<MyLibrary />} />
                       <Route path='checkout' element={<CheckOut />}/>
                     </Route>
-
+                    
                     <Route path='/feed' element={<Feed />} />
                     <Route path='/profile' element={<Profile />}/>
                 </Route>
@@ -57,9 +58,7 @@ const MainComponent = () => {
             </Routes>
           </div>
           <div className='fixed w-[24.7vw]  right-0 top-0 bottom-0'>
-            <DetailView 
-              loggedIn={loggedIn}
-            />
+            <BookDetailView />
           </div>
         </div>
     </div>
