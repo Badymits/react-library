@@ -62,7 +62,10 @@ const SwiperComponent = ({
                 <button className='absolute -right-1 bottom-[50%] top-[50%] cursor-pointer z-[500]' onClick={() => swiperRef.current?.slideNext()}>Next</button>
             </div>
             <div className=''>
-              <h1 className='absolute top-0 left-3 text-2xl'>{title}</h1>
+              <div className='block absolute top-0 left-3 text-2xl'>
+                <h1 className=''>{title}</h1>
+                <p className=' text-lg'>View more</p>
+              </div>
               <div className='absolute top-0 right-4'>
                   <div className={`swiper-pagination-${genre}`}></div>
               </div>
