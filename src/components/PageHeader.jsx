@@ -6,7 +6,7 @@ import { AuthContext } from "../context/AuthContext";
 
 const PageHeader = () => {
 
-  let { handleSearch } = useContext(AuthContext)
+  let { handleSearch, setKeyword } = useContext(AuthContext)
  
   const [navbar, setNavbar] = useState(false)
   const [searchBar, setsearchBar] = useState('')
@@ -14,6 +14,7 @@ const PageHeader = () => {
   const handleSearchBar = (e) => {
     console.log(e.target.value)
     setsearchBar(e.target.value)
+    setKeyword(e.target.value)
   }
 
   const handleNavbar = () => {
@@ -39,13 +40,10 @@ const PageHeader = () => {
                         isTransitioning ? 
                         'transitioning' :
                         ''
-                        ].join(" ")
-
-                    } 
-                        to='browse'
-                    >
-                        Browse 
-                    </NavLink>
+                        ].join(" ")} 
+                        to='home'>
+                        Home
+                    </NavLink>  
                 </div>
                 <div>
                     <NavLink className={({isActive, isTransitioning}) => 
@@ -55,10 +53,13 @@ const PageHeader = () => {
                         isTransitioning ? 
                         'transitioning' :
                         ''
-                        ].join(" ")} 
-                        to='my-library'>
-                        My Library
-                    </NavLink>  
+                        ].join(" ")
+
+                    } 
+                        to='browse'
+                    >
+                        Browse 
+                    </NavLink>
                 </div>
                 <div>
                     <NavLink className={({isActive, isTransitioning}) => 
