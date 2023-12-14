@@ -28,10 +28,10 @@ export const AuthProvider = ({children}) => {
     const [bookId, setBookId] = useState([])
     
     // searchResults contain the list of books related to the input value
-    const [searchResults, setSearchResults] = useState(null)
+    const [searchResults, setSearchResults] = useState([])
 
     // keyword will be used for filtering (sa ngayon ganito)
-    const [keyword, setKeyword] = useState()
+    const [keyword, setKeyword] = useState('')
 
     // for both states, we check the local storage for it. 
     // check first if it is present, else just set to null
@@ -57,7 +57,6 @@ export const AuthProvider = ({children}) => {
 
     // will be used to redirect user depending if they are logged in or not
     const navigate = useNavigate()
-    let { pathname } = useLocation()
 
     console.log(books)
 
@@ -66,7 +65,7 @@ export const AuthProvider = ({children}) => {
 
       // since we are targeting an input value from another component, we need to access it by the input name (i.e. searchbar)
       const param = e.target.searchbar.value
-      
+      setKeyword(param)
       await axios({
         method: 'GET',
         url: `http://127.0.0.1:8000/get-search-results/<str:genre>/`, // although confusing at first but always copy the full url of the endpoint, if there are any params, just add them below
