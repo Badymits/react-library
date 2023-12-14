@@ -11,11 +11,13 @@ import SwiperComponent from '../../components/SwiperComponent';
 
 const Browse = () => {
 
-  let { books } = useContext(AuthContext)
+  let { books, keyword, searchResults } = useContext(AuthContext)
+
+  console.log(searchResults)
 
   // let this variable contain the search parameters (to be implemented and optimized later)
-  const bookGenre = ['Computer Science', 'Fiction']
-  const bookGenreFic = [ 'Fiction']
+  const bookGenre = ['Computer Science']
+  const bookGenreFic = ['Fiction']
   
   // filtering nested arrays since books can have multiple genres
   // will be modified later so it can filter by multiple queries (title, author, and genre)
@@ -23,23 +25,34 @@ const Browse = () => {
   const resultFic = books.filter(book => book.genre.every(b => bookGenreFic.includes(b.name)))
 
   return (
-    <div className=''>
-      <div className='relative pt-10 mb-[10em]'>
-        <SwiperComponent 
-          resultComSci={resultCom}
-          genre={'ComputerScience'}
-          title='Computer Science'
-        />  
-      </div>
-      <div className='relative pt-10 mb-[10em]'>
-        <SwiperComponent 
-          resultComSci={resultFic}
-          genre={'Fiction'}
-          title='Fiction'
-        />
-      </div>
-
+    <div>
+      {
+        searchResults ? 
+        <div className='h-[100vh]'>
+          <p>Search Results for: {keyword}</p>
+          {/* display all books related to keyword here... */}
+        </div> :
+          <div className=''>
+          <div className='relative pt-10 mb-[10em]'>
+              <SwiperComponent 
+                resultComSci={resultCom}
+                genre={'ComputerScience'}
+                title='Computer Science'
+              />  
+            </div>
+            <div className='relative pt-10 mb-[10em]'>
+              <SwiperComponent 
+                resultComSci={resultFic}
+                genre={'Fiction'}
+                title='Fiction'
+              />
+            </div>
+    
+        </div>
+      }
+      
     </div>
+    
   )
 }
 
