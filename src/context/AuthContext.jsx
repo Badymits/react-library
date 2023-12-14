@@ -3,7 +3,7 @@
 import { createContext, useEffect, useState } from "react";
 import { jwtDecode  } from 'jwt-decode';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import getBookList from '../axios/getBookList';
 
@@ -26,8 +26,12 @@ export const AuthProvider = ({children}) => {
     
     // state to hold the book id which is to be used in get request api call
     const [bookId, setBookId] = useState([])
-
+    
+    // searchResults contain the list of books related to the input value
     const [searchResults, setSearchResults] = useState(null)
+
+    // keyword will be used for filtering (sa ngayon ganito)
+    const [keyword, setKeyword] = useState()
 
     // for both states, we check the local storage for it. 
     // check first if it is present, else just set to null
@@ -51,16 +55,37 @@ export const AuthProvider = ({children}) => {
       })
     }, [])
 
+    // will be used to redirect user depending if they are logged in or not
+    const navigate = useNavigate()
+    let { pathname } = useLocation()
+
     console.log(books)
 
     let handleSearch = async (e) => {
       e.preventDefault();
+
       // since we are targeting an input value from another component, we need to access it by the input name (i.e. searchbar)
-      console.log(e.target.searchbar.value)
+      const param = e.target.searchbar.value
+      
+      await axios({
+        method: 'GET',
+        url: `http://127.0.0.1:8000/get-search-results/<str:genre>/`, // although confusing at first but always copy the full url of the endpoint, if there are any params, just add them below
+        headers: {
+          'Content-Type': 'Application/json'
+        },
+        params: {
+          genre: param
+        }
+      })
+        .then((res) => {
+          console.log(res)
+          setSearchResults(res.data.search_results)
+          navigate(`/library/browse`)
+        }).catch((err) => {
+          console.error(err)
+        })
     } 
 
-    // will be used to redirect user depending if they are logged in or not
-    const navigate = useNavigate()
 
     let registerUser = async (e) => {
         e.preventDefault();
@@ -158,6 +183,9 @@ export const AuthProvider = ({children}) => {
         bookId: bookId,
         setBookId: setBookId,
         handleSearch: handleSearch,
+        searchResults: searchResults,
+        keyword: keyword,
+        setKeyword: setKeyword,
     }
 
     return(
