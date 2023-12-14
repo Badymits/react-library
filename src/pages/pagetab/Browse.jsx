@@ -14,7 +14,6 @@ const Browse = () => {
   let { books, keyword, searchResults } = useContext(AuthContext)
 
   console.log(searchResults)
-
   // let this variable contain the search parameters (to be implemented and optimized later)
   const bookGenre = ['Computer Science']
   const bookGenreFic = ['Fiction']
@@ -27,12 +26,18 @@ const Browse = () => {
   return (
     <div>
       {
-        searchResults ? 
+        keyword ? 
         <div className='h-[100vh]'>
-          <p>Search Results for: {keyword}</p>
+          <p className='font-bold'>Search Results for: {keyword}</p>
           {/* display all books related to keyword here... */}
-        </div> :
-          <div className=''>
+          {searchResults.map((book) => (
+            <div key={book.id}>
+              <p>{book.title}</p>
+            </div>
+          ))}
+        </div>
+        :
+        <div className=''>
           <div className='relative pt-10 mb-[10em]'>
               <SwiperComponent 
                 resultComSci={resultCom}
@@ -47,8 +52,8 @@ const Browse = () => {
                 title='Fiction'
               />
             </div>
-    
         </div>
+        
       }
       
     </div>
