@@ -9,10 +9,10 @@ import PrivateRoute from './utils/PrivateRoute';
 
 import { AuthContext } from './context/AuthContext'
 import LoginPage from './pages/LoginPage';
-import MyLibrary from './pages/pagetab/MyLibrary';
 import CheckOut from './pages/pagetab/CheckOut';
 import Browse from './pages/pagetab/Browse';
 import BookDetailView from './pages/BookDetailView';
+import Home from './pages/pagetab/Home';
 
 
 const MainComponent = () => {
@@ -44,11 +44,12 @@ const MainComponent = () => {
                     <Route index element={<Navigate to='library' replace={true}/>}/>
 
                     <Route path='/library' element={<Library />} > 
-                      <Route index element={<Navigate to='browse' replace={true} />}/>
+                      <Route index element={<Navigate to='home' replace={true} />}/>
+                      <Route path='home' element={<Home />}/>
                       <Route path='browse' element={<Browse />}/>
-                      <Route path='my-library' element={<MyLibrary />} />
                       <Route path='checkout' element={<CheckOut />}/>
                     </Route>
+                    
                     <Route path='/feed' element={<Feed />} />
                     <Route path='/profile' element={<Profile />}/>
                 </Route>
