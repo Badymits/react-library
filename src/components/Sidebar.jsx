@@ -57,7 +57,7 @@ const Sidebar = () => {
         
             <div className='text-xl space-y-2'>
                 <div className=' '>
-                    <NavLink to='library' className={({isActive, isTransitioning}) => 
+                    <NavLink to='/library' className={({isActive, isTransitioning}) => 
                         [isActive ?
                         'flex items-center gap-3 px-24 active-tab' :
                         'inactive-tab hover:hover-tab',
