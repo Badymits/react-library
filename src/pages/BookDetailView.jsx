@@ -15,6 +15,7 @@ const BookDetailView = ({ title, loggedIn }) => {
   // when using basic conditional rendering, just leave the state empty, dont put any values
   const [bookDetailComp, setBookDetailComp] = useState()
 
+  // setting the bookdetial component to empty so it would close
   const closeRightPanel = () => {
     setBookDetailComp()
   }
@@ -27,6 +28,7 @@ const BookDetailView = ({ title, loggedIn }) => {
       const data = await axios.get( `http://127.0.0.1:8000/get-book-detail/${bookId}/`)
       return data
     }
+
     fetchData().then((res) => {
       console.log(res.data)
       setBookDetailComp(res.data)
@@ -43,16 +45,20 @@ const BookDetailView = ({ title, loggedIn }) => {
             {
               bookDetailComp ?
               
-              <div className='w-full h-screen bg-gray-200 flex flex-col items-center pt-[40px]  px-8 text-justify align-center gap-6'>
+              <div className='w-full h-screen bg-gray-200 flex flex-col items-center pt-[35px]  px-8 text-justify align-center gap-6'>
                 <IoMdClose className='text-2xl absolute top-10 right-5 hover:bg-gray-200 rounded-full cursor-pointer' onClick={() => closeRightPanel()}/>
                 
                 <img src={bookDetailComp.book_image} alt={bookDetailComp.title} className='max-h-[350px] max-w-[350px]' />
-                <p>{bookDetailComp.title}</p>
-                <p>{bookDetailComp.author.name}</p>
-                <p className=''>{bookDetailComp.summary}</p>
-                <button className='absolute bottom-10 bg-[#6AB187] w-[80%] py-3 rounded-full mt-10 text-white text-2xl'>
-                  Add to Cart
-                </button>
+                <div className=' text-center'>
+                  <p className='py-1'>{bookDetailComp.title}</p>
+                  <p className='py-1'>{bookDetailComp.author.name}</p>
+                  <p className='py-1 text-justify'>{bookDetailComp.summary}</p>
+                </div>
+                
+                <button className='absolute bottom-10  w-[80%] bg-[#6AB187] py-3 rounded-full mt-10 text-white text-2xl'>
+                    Add to Cart
+                  </button>
+                
               </div>
               :
               <div className='w-full h-screen pt-[20px] px-6 text-justify '>
