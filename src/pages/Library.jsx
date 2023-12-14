@@ -6,7 +6,6 @@ import PageHeader from '../components/PageHeader'
 
 const Library = () => {
   
-//   const [currentTab, setcurrentTab] = useState('popular')
 
   return (
     <section className='relative border-x-2 overflow-y-hidden'>
