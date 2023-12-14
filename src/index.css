@@ -21,4 +21,8 @@
     .bullet-active-class{
         @apply bg-green-800;
     }
+
+    .swiper-container-home{
+        @apply flex items-center justify-center  text-center h-full w-full bg-green-200 border-2 border-gray-400;
+    }
 }
