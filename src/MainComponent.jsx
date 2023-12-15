@@ -13,6 +13,7 @@ import CheckOut from './pages/pagetab/CheckOut';
 import Browse from './pages/pagetab/Browse';
 import BookDetailView from './pages/BookDetailView';
 import Home from './pages/pagetab/Home';
+import SearchResult from './pages/SearchResult';
 
 
 const MainComponent = () => {
@@ -46,7 +47,9 @@ const MainComponent = () => {
                     <Route path='/library' element={<Library />} > 
                       <Route index element={<Navigate to='home' replace={true} />}/>
                       <Route path='home' element={<Home />}/>
-                      <Route path='browse' element={<Browse />}/>
+                      <Route path='browse' element={<Browse />}>
+                        <Route path='search-result' element={<SearchResult />}/>
+                      </Route>
                       <Route path='checkout' element={<CheckOut />}/>
                     </Route>
                     
