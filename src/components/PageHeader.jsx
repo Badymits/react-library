@@ -6,15 +6,17 @@ import { AuthContext } from "../context/AuthContext";
 
 const PageHeader = () => {
 
-  let { handleSearch, setKeyword } = useContext(AuthContext)
+  let { handleSearch } = useContext(AuthContext)
  
   const [navbar, setNavbar] = useState(false)
   const [searchBar, setsearchBar] = useState('')
 
   const handleSearchBar = (e) => {
-    console.log(e.target.value)
+
     setsearchBar(e.target.value)
-    setKeyword(e.target.value)
+    // if (searchBar.length === 0){
+    //     setSearchResults([])
+    // }
   }
 
   const handleNavbar = () => {
