@@ -3,7 +3,7 @@
 import { createContext, useEffect, useState } from "react";
 import { jwtDecode  } from 'jwt-decode';
 import axios from 'axios';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, createSearchParams } from "react-router-dom";
 
 import getBookList from '../axios/getBookList';
 
@@ -21,23 +21,30 @@ export const AuthProvider = ({children}) => {
         password2: '',
       })
     
+
     // state to hold the list of books
     const [books, setBooks] = useState([])
     
+
     // state to hold the book id which is to be used in get request api call
     const [bookId, setBookId] = useState([])
     
+
     // searchResults contain the list of books related to the input value
     const [searchResults, setSearchResults] = useState([])
 
+
     // keyword will be used for filtering (sa ngayon ganito)
     const [keyword, setKeyword] = useState('')
+
 
     // for both states, we check the local storage for it. 
     // check first if it is present, else just set to null
     const [authTokens, setAuthTokens] = useState( () =>
         localStorage.getItem('auth_token') ? JSON.parse(localStorage.getItem('auth_token')) : null
     )
+
+
     // make it a callback function so it doesnt have to send a request everytime the page refreshes
     const [user, setUser] = useState( () =>
         localStorage.getItem('auth_token') ? jwtDecode(localStorage.getItem('auth_token')) : null
@@ -79,7 +86,12 @@ export const AuthProvider = ({children}) => {
         .then((res) => {
           console.log(res)
           setSearchResults(res.data.search_results)
-          navigate(`/library/browse`)
+          console.log('navigating...')
+          navigate({
+            pathname: '/library/browse/search-result', 
+            search: createSearchParams({
+            params: param}).toString()
+          })
         }).catch((err) => {
           console.error(err)
         })
@@ -183,6 +195,7 @@ export const AuthProvider = ({children}) => {
         setBookId: setBookId,
         handleSearch: handleSearch,
         searchResults: searchResults,
+        setSearchResults: setSearchResults,
         keyword: keyword,
         setKeyword: setKeyword,
     }
