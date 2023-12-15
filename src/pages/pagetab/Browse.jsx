@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 
 // modules have to be present so items inside navigation and pagination will display properly
 import 'swiper/css';
@@ -8,12 +8,20 @@ import 'swiper/css/pagination';
 import { AuthContext } from '../../context/AuthContext';
 import SwiperComponent from '../../components/SwiperComponent';
 
+import { Outlet, useLocation } from 'react-router-dom';
+
 
 const Browse = () => {
 
-  let { books, keyword, searchResults } = useContext(AuthContext)
+  let { books, searchResults, setSearchResults } = useContext(AuthContext)
 
-  console.log(searchResults)
+  const changeOutletView = useRef()
+  let { pathname } = useLocation()
+  
+  if (searchResults.length === 0){
+    console.log('Results: ', searchResults)
+  }
+
   // let this variable contain the search parameters (to be implemented and optimized later)
   const bookGenre = ['Computer Science']
   const bookGenreFic = ['Fiction']
@@ -23,19 +31,19 @@ const Browse = () => {
   const resultCom = books.filter(book => book.genre.every(b => bookGenre.includes(b.name)))
   const resultFic = books.filter(book => book.genre.every(b => bookGenreFic.includes(b.name)))
 
+  // useEffect to change the data rendered if there are any inputs/results returned <from></from> the search bar
+  //... very scuffed way
+  useEffect(() => {
+    
+    
+
+  }, [searchResults, pathname, setSearchResults])
+
+  console.log(changeOutletView.current)
   return (
-    <div>
-      {
-        keyword ? 
-        <div className='h-[100vh]'>
-          <p className='font-bold'>Search Results for: {keyword}</p>
-          {/* display all books related to keyword here... */}
-          {searchResults.map((book) => (
-            <div key={book.id}>
-              <p>{book.title}</p>
-            </div>
-          ))}
-        </div>
+    <div>  
+      {changeOutletView.current  ?
+        <Outlet />
         :
         <div className=''>
           <div className='relative pt-10 mb-[10em]'>
@@ -44,17 +52,17 @@ const Browse = () => {
                 genre={'ComputerScience'}
                 title='Computer Science'
               />  
-            </div>
-            <div className='relative pt-10 mb-[10em]'>
-              <SwiperComponent 
-                resultComSci={resultFic}
-                genre={'Fiction'}
-                title='Fiction'
-              />
-            </div>
-        </div>
-        
+          </div>
+          <div className='relative pt-10 mb-[10em]'>
+            <SwiperComponent 
+              resultComSci={resultFic}
+              genre={'Fiction'}
+              title='Fiction'
+            />
+          </div>
+      </div> 
       }
+      
       
     </div>
     
