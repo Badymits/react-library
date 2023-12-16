@@ -14,9 +14,6 @@ const PageHeader = () => {
   const handleSearchBar = (e) => {
 
     setsearchBar(e.target.value)
-    // if (searchBar.length === 0){
-    //     setSearchResults([])
-    // }
   }
 
   const handleNavbar = () => {
