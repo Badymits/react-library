@@ -87,6 +87,7 @@ export const AuthProvider = ({children}) => {
           console.log(res)
           setSearchResults(res.data.search_results)
           console.log('navigating...')
+          
           navigate({
             pathname: '/library/browse/search-result', 
             search: createSearchParams({
@@ -195,7 +196,6 @@ export const AuthProvider = ({children}) => {
         setBookId: setBookId,
         handleSearch: handleSearch,
         searchResults: searchResults,
-        setSearchResults: setSearchResults,
         keyword: keyword,
         setKeyword: setKeyword,
     }
