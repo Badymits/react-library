@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 // modules have to be present so items inside navigation and pagination will display properly
 import 'swiper/css';
@@ -13,14 +13,11 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 const Browse = () => {
 
-  let { books, searchResults, setSearchResults } = useContext(AuthContext)
-
-  const changeOutletView = useRef()
+  let { books, searchResults } = useContext(AuthContext)
+  
+  const [changeOutletView, setChangeOutletView] = useState(false)
   let { pathname } = useLocation()
   
-  if (searchResults.length === 0){
-    console.log('Results: ', searchResults)
-  }
 
   // let this variable contain the search parameters (to be implemented and optimized later)
   const bookGenre = ['Computer Science']
@@ -35,14 +32,21 @@ const Browse = () => {
   //... very scuffed way
   useEffect(() => {
     
-    
+    if (searchResults.length > 0){
+      console.log(searchResults.length)
+      setChangeOutletView(true)
+    }
 
-  }, [searchResults, pathname, setSearchResults])
+    if (pathname !== '/library/browse/search-result') {
+      setChangeOutletView(false)
+    }
 
-  console.log(changeOutletView.current)
+  }, [searchResults,pathname, changeOutletView])
+
+  console.log(changeOutletView)
   return (
     <div>  
-      {changeOutletView.current  ?
+      {changeOutletView  ?
         <Outlet />
         :
         <div className=''>
