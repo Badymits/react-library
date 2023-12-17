@@ -75,12 +75,12 @@ export const AuthProvider = ({children}) => {
       setKeyword(param)
       await axios({
         method: 'GET',
-        url: `http://127.0.0.1:8000/get-search-results/<str:genre>/`, // although confusing at first but always copy the full url of the endpoint, if there are any params, just add them below
+        url: `http://127.0.0.1:8000/get-search-results/<str:key>/`, // although confusing at first but always copy the full url of the endpoint, if there are any params, just add them below
         headers: {
           'Content-Type': 'Application/json'
         },
         params: {
-          genre: param
+          key: param
         }
       })
         .then((res) => {
