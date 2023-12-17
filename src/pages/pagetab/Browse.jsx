@@ -32,7 +32,7 @@ const Browse = () => {
   //... very scuffed way
   useEffect(() => {
     
-    if (searchResults.length > 0){
+    if (searchResults){
       console.log(searchResults.length)
       setChangeOutletView(true)
     }
