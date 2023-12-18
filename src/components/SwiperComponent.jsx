@@ -24,12 +24,13 @@ const SwiperComponent = ({
   const swiperRef = useRef()
 
   return (
-    <div className='swiper-container'>
+    <div className='swiper-container '>
         <Swiper
             spaceBetween={45}
             slidesPerView={3}
             slidesPerGroup={3}
             modules={[Pagination, Navigation]}
+            navigation={{clickable: true}}
             onBeforeInit={(swiper) => {
                 swiperRef.current = swiper
             }}
@@ -41,7 +42,7 @@ const SwiperComponent = ({
                 bulletActiveClass: 'bullet-active-class',
                 
             }}
-            className='px-10 pt-8  '>     
+            className='px-6 pt-8  '>     
             {
               resultComSci.slice(0,9).map((book) => (
                 <SwiperSlide key={book.id}  className='flex flex-col items-center justify-between h-[400px] text-center gap-4 cursor-pointer pt-2 
@@ -56,11 +57,7 @@ const SwiperComponent = ({
                 </SwiperSlide>
               ))
             }    
-        </Swiper>  
-            <div >
-                <button className='absolute -left-1 bottom-[50%] top-[50%] cursor-pointer z-[500]' onClick={() => swiperRef.current?.slidePrev()}>Prev</button>
-                <button className='absolute -right-1 bottom-[50%] top-[50%] cursor-pointer z-[500]' onClick={() => swiperRef.current?.slideNext()}>Next</button>
-            </div>
+        </Swiper> 
             <div className=''>
               <div className='block absolute top-0 left-3 text-2xl'>
                 <h1 className=''>{title}</h1>
