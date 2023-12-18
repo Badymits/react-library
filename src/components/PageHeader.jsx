@@ -28,7 +28,7 @@ const PageHeader = () => {
   window.addEventListener('scroll', handleNavbar)
  
   return (
-    <header className={navbar ? "h-[80px] px-6 bg-white/10 backdrop-blur-md border-gray-400  transition-all" : "px-6 w-full h-[80px] " }>
+    <header className={navbar ? "h-[80px] px-4 bg-white/10 backdrop-blur-md border-gray-400  transition-all" : "px-4 w-full h-[80px] " }>
         <div className="flex items-center justify-between h-full">
             <div className="flex items-center justify-start gap-[4rem] w-[50%] text-lg ">
                 <div>
@@ -75,7 +75,7 @@ const PageHeader = () => {
                     </NavLink>
                 </div>
             </div>
-            <div className="flex w-[50%] items-center justify-between mx-2 ">
+            <div className="flex w-[50%] items-center justify-between">
                 <div className="relative">
                     <CiSearch className="absolute top-1 right-1 text-lg"/>
                     <form action="" onSubmit={handleSearch}>
