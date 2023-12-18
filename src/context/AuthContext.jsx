@@ -87,7 +87,8 @@ export const AuthProvider = ({children}) => {
           console.log(res)
           setSearchResults(res.data.search_results)
           console.log('navigating...')
-          
+          sessionStorage.setItem('books', JSON.stringify(res.data.search_results))
+          sessionStorage.setItem('keyword', param)
           navigate({
             pathname: '/library/browse/search-result', 
             search: createSearchParams({
