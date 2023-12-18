@@ -16,6 +16,7 @@ const Browse = () => {
   let { books, searchResults } = useContext(AuthContext)
   
   const [changeOutletView, setChangeOutletView] = useState(false)
+
   let { pathname } = useLocation()
   
 
@@ -33,23 +34,25 @@ const Browse = () => {
   useEffect(() => {
     
     if (searchResults){
-      console.log(searchResults.length)
       setChangeOutletView(true)
     }
 
     if (pathname !== '/library/browse/search-result') {
+      localStorage.removeItem('results')
+      sessionStorage.removeItem('books')
       setChangeOutletView(false)
     }
 
-  }, [searchResults,pathname, changeOutletView])
+  }, [searchResults, pathname, changeOutletView])
 
+  console.log(searchResults)
   console.log(changeOutletView)
   return (
     <div>  
-      {changeOutletView  ?
+      {changeOutletView ?
         <Outlet />
         :
-        <div className=''>
+        <div className='xl:max-w-[900px] lg:max-w-[760px] block mx-auto'>
           <div className='relative pt-10 mb-[10em]'>
               <SwiperComponent 
                 resultComSci={resultCom}
