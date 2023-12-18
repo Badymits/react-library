@@ -45,7 +45,7 @@ const BookDetailView = ({ title, loggedIn }) => {
             {
               bookDetailComp ?
               
-              <div className='w-full h-screen bg-gray-200 flex flex-col items-center pt-[35px]  px-8 text-justify align-center gap-6'>
+              <div className='w-full h-screen bg-gray-200 flex flex-col items-center pt-[35px]  px-4 text-justify align-center gap-6'>
                 <IoMdClose className='text-2xl absolute top-10 right-5 hover:bg-gray-200 rounded-full cursor-pointer' onClick={() => closeRightPanel()}/>
                 
                 <img src={bookDetailComp.book_image} alt={bookDetailComp.title} className='max-h-[350px] max-w-[350px]' />
