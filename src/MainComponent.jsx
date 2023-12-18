@@ -21,19 +21,17 @@ const MainComponent = () => {
   let { loggedIn } = useContext(AuthContext)
 
   return (
-    <div className={loggedIn ? 'grid grid-cols-4 h-[100%]' : 
+    <div className={loggedIn ? 'flex justify-between' : 
         'bg-[#69b086] w-full h-screen flex justify-center'}>
 
         {/* fixed positioning cannot work with grid, but you can work around it by making a child div
           of the parent and you can place fixed positioning on the child */}
-        <div className='flex justify-center '>
-          <div className='fixed h-screen '>
-            <Sidebar />
-          </div>
+        <div className='basis-[25%] sticky top-0 self-start flex justify-center border-r-2 '>
+          <Sidebar />
         </div>
 
-        <div className=' col-span-2 h-full ' >
-          <div className=''>
+        <div className='basis-[50%]' >
+
             <Routes>
                 {/* elements here requires user authentication */}
                 <Route path='/'  element={<PrivateRoute />}>
@@ -59,13 +57,14 @@ const MainComponent = () => {
                 <Route path='/auth/login' element={<LoginPage />}/>
                 <Route path='/auth/register' element={<RegisterPage />}/>
             </Routes>
-          </div>
-          <div className='fixed w-[24.7vw]  right-0 top-0 bottom-0'>
-            <BookDetailView 
-              loggedIn={true}
-            />
-          </div>
         </div>
+
+        <div className='basis-[25%] sticky top-0 self-start h-[100vh]  border-l-2'>
+          <BookDetailView 
+            loggedIn={true}
+          />
+        </div>
+        
     </div>
   )
 }
