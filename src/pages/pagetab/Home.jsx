@@ -17,7 +17,7 @@ const Home = () => {
             pagination={true}
             navigation={true}
             loop={true}
-            className='h-[250px]'
+            className='h-[250px] block mx-auto xl:max-w-[800px] lg:max-w-[760px]'
           >
             <SwiperSlide className='swiper-container-home'>
               <h1 className='text-6xl text-gray-400'>GRAND OPENING!!!! </h1>
