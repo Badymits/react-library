@@ -12,15 +12,22 @@ import { SiGmail } from "react-icons/si";
 
 const BookDetailView = ({ title, loggedIn }) => {
   
-  // when using basic conditional rendering, just leave the state empty, dont put any values
-  const [bookDetailComp, setBookDetailComp] = useState()
+  let { bookId, setBooksInCart } = useContext(AuthContext)
 
+  // tip lang: when using basic conditional rendering, just leave the state empty, dont put any values
+  const [bookDetailComp, setBookDetailComp] = useState()
+  
   // setting the bookdetial component to empty so it would close
   const closeRightPanel = () => {
     setBookDetailComp()
   }
 
-  let { bookId } = useContext(AuthContext)
+  const handleAddToCartBtn = (book) => {
+    console.log('Addudtu cart now', book)
+    setBooksInCart( prevState => 
+      [...prevState, book]
+    )
+  }
 
   useEffect(() => {
 
@@ -55,7 +62,7 @@ const BookDetailView = ({ title, loggedIn }) => {
                   <p className='py-1 text-justify'>{bookDetailComp.summary}</p>
                 </div>
                 
-                <button className='absolute bottom-10  w-[80%] bg-[#6AB187] py-3 rounded-full mt-10 text-white text-2xl'>
+                <button className='absolute bottom-10  w-[80%] bg-[#6AB187] py-3 rounded-full mt-10 text-white text-2xl hover:bg-[#94ebb8] duration-150' onClick={() => handleAddToCartBtn(bookDetailComp)}>
                     Add to Cart
                   </button>
                 
