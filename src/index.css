@@ -26,3 +26,24 @@
         @apply flex items-center justify-center  text-center h-full w-full bg-green-200 border-2 border-gray-400;
     }
 }
+
+@layer utilities {
+    .scrollbar::-webkit-scrollbar {
+      width: 10px;
+      height: 20px;
+    }
+  
+    .scrollbar::-webkit-scrollbar-track {
+      border-radius: 100vh;
+      background: #f7f4ed;
+    }
+  
+    .scrollbar::-webkit-scrollbar-thumb {
+      background: #6AB187;
+      border-radius: 100vh;
+    }
+  
+    .scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94ebb8;
+    }
+  }
