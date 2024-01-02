@@ -4,6 +4,8 @@ import { CiSearch } from "react-icons/ci";
 import { GiShoppingCart } from "react-icons/gi";
 import { AuthContext } from "../context/AuthContext";
 
+import { IoMdAddCircleOutline, IoIosRemoveCircleOutline  } from "react-icons/io";
+
 const PageHeader = () => {
 
   let { handleSearch, booksInCart } = useContext(AuthContext)
@@ -99,20 +101,28 @@ const PageHeader = () => {
                 </div>
                 <div className="relative">
                     <GiShoppingCart className="text-3xl hover:hover:bg-gray-200 rounded-full cursor-pointer" onClick={handleCartView}/>
-                    <div className={ `${cartView ? 'block' : 'hidden'} absolute top-7 right-0 h-[250px] w-[360px] bg-gray-300 rounded-xl  `}>
+                    <p className="absolute -top-3 -right-1 text-red-400 font-bold text-xl">{booksInCart.length}</p>
+                    <div className={ `${cartView ? 'block' : 'hidden'} absolute top-8 right-0 h-[300px] w-[450px] bg-gray-300 rounded-xl border-blue-300 border-2 overflow-y-auto scrollbar`}>
                         
                     {(booksInCart.length > 0) ? 
 
                         <div>
                             {booksInCart.map((book) => (
-                                <p key={book.id}>
-                                    {book.title}
-                                </p>
+                                <div key={book.id} className="flex items-center justify-between py-2 px-3 h-[130px]">
+                                    <img src={book.book_image} alt={book.title} className="object-contain max-h-[100px] max-w-[100px]"/>
+                                    <div className="px-2">
+                                        <p>{book.title}</p>
+                                        <p>{book.author.name}</p>
+                                    </div>
+                                    
+                                    <IoMdAddCircleOutline className="text-green-600"/>
+                                    <IoIosRemoveCircleOutline className="text-red-600"/>
+                                </div>
                             ))}
                         </div>
                         
                     :
-                        <p>
+                        <p className="text-center text-2xl ">
                             0 items in cart
                         </p>
                     }
