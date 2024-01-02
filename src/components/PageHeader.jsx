@@ -6,14 +6,21 @@ import { AuthContext } from "../context/AuthContext";
 
 const PageHeader = () => {
 
-  let { handleSearch } = useContext(AuthContext)
+  let { handleSearch, booksInCart } = useContext(AuthContext)
  
   const [navbar, setNavbar] = useState(false)
   const [searchBar, setsearchBar] = useState('')
+  const [cartView, setCartView] = useState(false)
+
+  console.log(booksInCart.length)
 
   const handleSearchBar = (e) => {
-
+    
     setsearchBar(e.target.value)
+  }
+
+  const handleCartView = () => {
+    setCartView(!cartView)
   }
 
   const handleNavbar = () => {
@@ -26,7 +33,7 @@ const PageHeader = () => {
   }
 
   window.addEventListener('scroll', handleNavbar)
- 
+  
   return (
     <header className={navbar ? "h-[80px] px-4 bg-white/10 backdrop-blur-md border-gray-400  transition-all" : "px-4 w-full h-[80px] " }>
         <div className="flex items-center justify-between h-full">
@@ -90,7 +97,31 @@ const PageHeader = () => {
                     </form>
                     
                 </div>
-                <GiShoppingCart className="text-3xl hover:hover:bg-gray-200 rounded-full cursor-pointer"/>
+                <div className="relative">
+                    <GiShoppingCart className="text-3xl hover:hover:bg-gray-200 rounded-full cursor-pointer" onClick={handleCartView}/>
+                    <div className={ `${cartView ? 'block' : 'hidden'} absolute top-7 right-0 h-[250px] w-[360px] bg-gray-300 rounded-xl  `}>
+                        
+                    {(booksInCart.length > 0) ? 
+
+                        <div>
+                            {booksInCart.map((book) => (
+                                <p key={book.id}>
+                                    {book.title}
+                                </p>
+                            ))}
+                        </div>
+                        
+                    :
+                        <p>
+                            0 items in cart
+                        </p>
+                    }
+                        
+                        
+                        
+                    </div>
+                </div>
+                
             </div>
         </div>
         
