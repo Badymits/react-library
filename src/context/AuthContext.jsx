@@ -38,6 +38,8 @@ export const AuthProvider = ({children}) => {
     const [keyword, setKeyword] = useState('')
 
 
+    const [booksInCart, setBooksInCart] = useState([])
+
     // for both states, we check the local storage for it. 
     // check first if it is present, else just set to null
     const [authTokens, setAuthTokens] = useState( () =>
@@ -72,31 +74,35 @@ export const AuthProvider = ({children}) => {
 
       // since we are targeting an input value from another component, we need to access it by the input name (i.e. searchbar)
       const param = e.target.searchbar.value
-      setKeyword(param)
-      await axios({
-        method: 'GET',
-        url: `http://127.0.0.1:8000/get-search-results/<str:key>/`, // although confusing at first but always copy the full url of the endpoint, if there are any params, just add them below
-        headers: {
-          'Content-Type': 'Application/json'
-        },
-        params: {
-          key: param
-        }
-      })
-        .then((res) => {
-          console.log(res)
-          setSearchResults(res.data.search_results)
-          console.log('navigating...')
-          sessionStorage.setItem('books', JSON.stringify(res.data.search_results))
-          sessionStorage.setItem('keyword', param)
-          navigate({
-            pathname: '/library/browse/search-result', 
-            search: createSearchParams({
-            params: param}).toString()
-          })
-        }).catch((err) => {
-          console.error(err)
+
+      // will only run when param is not blank, so user must have input for search bar to send a req to backend
+      if (param !== ''){
+        setKeyword(param)
+        await axios({
+          method: 'GET',
+          url: `http://127.0.0.1:8000/get-search-results/<str:key>/`, // although confusing at first but always copy the full url of the endpoint, if there are any params, just add them below
+          headers: {
+            'Content-Type': 'Application/json'
+          },
+          params: {
+            key: param
+          }
         })
+          .then((res) => {
+            console.log(res)
+            setSearchResults(res.data.search_results)
+            console.log('navigating...')
+            sessionStorage.setItem('books', JSON.stringify(res.data.search_results))
+            sessionStorage.setItem('keyword', param)
+            navigate({
+              pathname: '/library/browse/search-result', 
+              search: createSearchParams({
+              params: param}).toString()
+            })
+          }).catch((err) => {
+            console.error(err)
+          })
+      } 
     } 
 
 
@@ -199,7 +205,10 @@ export const AuthProvider = ({children}) => {
         searchResults: searchResults,
         keyword: keyword,
         setKeyword: setKeyword,
+        setBooksInCart: setBooksInCart,
+        booksInCart: booksInCart,
     }
+
 
     return(
         <AuthContext.Provider value={contextData}>
