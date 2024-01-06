@@ -61,7 +61,7 @@ const MainComponent = () => {
 
         <div className='basis-[25%] sticky top-0 self-start h-[100vh]  border-l-2'>
           <BookDetailView 
-            loggedIn={true}
+            loggedIn={loggedIn}
           />
         </div>
         
