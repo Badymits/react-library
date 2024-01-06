@@ -3,15 +3,27 @@ import { AuthContext } from '../context/AuthContext'
 
 const SearchResult = () => {
 
-  let { searchResults } = useContext(AuthContext)
+  let { searchResults, setBooksInCart, booksInCart } = useContext(AuthContext)
   const keyword = sessionStorage.getItem('keyword')
 
   const [books, setBooks] = useState(() => [])
 
-  //when search results changes, set the books state to the items in the session storage
+  //when searchresults changes in the authcontext, set the books state to the items in the session storage
   useEffect(() => {
     setBooks(JSON.parse(sessionStorage.getItem('books')))
   }, [searchResults])
+
+  const handleAddToCartBtn = (book) => {
+    
+    if (booksInCart.includes(book)){
+      alert('Item is already in cart!')
+    } else {
+      setBooksInCart( prevState => 
+        [...prevState, book]
+      )
+      alert(`Added "${book.title}" to cart!!!`)
+    }
+  }
 
   return (
         <div>
@@ -28,8 +40,9 @@ const SearchResult = () => {
                   <p className='text-gray-800 font-light text-sm'>{book.genre[0].name}</p>
                   <p>{ book.summary }</p>
                   <button className=' w-[40%] bg-[#6AB187] py-3 rounded-full mt-10 text-white text-2xl
-                    hover:bg-[#4caa73] duration-200
-                  '>
+                    hover:bg-[#4caa73] duration-200'
+                    onClick={() => handleAddToCartBtn(book)}
+                  >
                     Add to Cart
                     </button>
                 </div>
