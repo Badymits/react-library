@@ -12,7 +12,7 @@ import { SiGmail } from "react-icons/si";
 
 const BookDetailView = ({ title, loggedIn }) => {
   
-  let { bookId, setBooksInCart } = useContext(AuthContext)
+  let { bookId, setBooksInCart, booksInCart } = useContext(AuthContext)
 
   // tip lang: when using basic conditional rendering, just leave the state empty, dont put any values
   const [bookDetailComp, setBookDetailComp] = useState()
@@ -23,12 +23,18 @@ const BookDetailView = ({ title, loggedIn }) => {
   }
 
   const handleAddToCartBtn = (book) => {
-    console.log('Addudtu cart now', book)
-    setBooksInCart( prevState => 
-      [...prevState, book]
-    )
+    
+    if (booksInCart.includes(book)){
+      alert('Item is already in cart!')
+    } else {
+      setBooksInCart( prevState => 
+        [...prevState, book]
+      )
+      alert(`Added "${book.title}" to cart!!!`)
+    }
   }
 
+  // retrieve book details from backend thru api endpoint
   useEffect(() => {
 
     const fetchData = async () => {
@@ -60,11 +66,15 @@ const BookDetailView = ({ title, loggedIn }) => {
                   <p className='py-1'>{bookDetailComp.title}</p>
                   <p className='py-1'>{bookDetailComp.author.name}</p>
                   <p className='py-1 text-justify'>{bookDetailComp.summary}</p>
+                  <div className='text-start pt-2 font-bold text-lg'>
+                    <p>Rent Price: {bookDetailComp.rent_price}</p>
+                    <p>Purchase Price: {bookDetailComp.purchase_price}</p>
+                  </div>
                 </div>
                 
                 <button className='absolute bottom-10  w-[80%] bg-[#6AB187] py-3 rounded-full mt-10 text-white text-2xl hover:bg-[#94ebb8] duration-150' onClick={() => handleAddToCartBtn(bookDetailComp)}>
                     Add to Cart
-                  </button>
+                </button>
                 
               </div>
               :
