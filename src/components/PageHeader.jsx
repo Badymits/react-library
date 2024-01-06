@@ -4,15 +4,25 @@ import { CiSearch } from "react-icons/ci";
 import { GiShoppingCart } from "react-icons/gi";
 import { AuthContext } from "../context/AuthContext";
 
-import { IoMdAddCircleOutline, IoIosRemoveCircleOutline  } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+
+import {  IoIosRemoveCircleOutline  } from "react-icons/io";
 
 const PageHeader = () => {
 
-  let { handleSearch, booksInCart } = useContext(AuthContext)
- 
+  let { handleSearch, booksInCart, setBooksInCart } = useContext(AuthContext)
+
+  const navigate = useNavigate()
+
+  // upon user scroll, will set the css classes for navbar
   const [navbar, setNavbar] = useState(false)
+
+  // controlled input search bar
   const [searchBar, setsearchBar] = useState('')
+
+  // cart display block, by default, it is closed
   const [cartView, setCartView] = useState(false)
+
 
   console.log(booksInCart.length)
 
@@ -32,6 +42,12 @@ const PageHeader = () => {
     } else {
         setNavbar(false)
     }
+  }
+
+  const handleRemoveItem = (book) => {
+    alert(`'${book.title}' removed!!!`)
+    let filteredArray = booksInCart.filter(item => item !== book)
+    setBooksInCart(filteredArray)
   }
 
   window.addEventListener('scroll', handleNavbar)
@@ -102,24 +118,29 @@ const PageHeader = () => {
                 <div className="relative">
                     <GiShoppingCart className="text-3xl hover:hover:bg-gray-200 rounded-full cursor-pointer" onClick={handleCartView}/>
                     <p className="absolute -top-3 -right-1 text-red-400 font-bold text-xl">{booksInCart.length}</p>
-                    <div className={ `${cartView ? 'block' : 'hidden'} absolute top-8 right-0 h-[300px] w-[450px] bg-gray-300 rounded-xl border-blue-300 border-2 overflow-y-auto scrollbar`}>
+                    <div className={ `${cartView ? 'block' : 'hidden'} absolute top-8 right-0 h-[400px] w-[450px] bg-gray-300 rounded-xl border-blue-300 border-2`}>
                         
                     {(booksInCart.length > 0) ? 
 
-                        <div>
-                            {booksInCart.map((book) => (
-                                <div key={book.id} className="flex items-center justify-between py-2 px-3 h-[130px]">
-                                    <img src={book.book_image} alt={book.title} className="object-contain max-h-[100px] max-w-[100px]"/>
-                                    <div className="px-2">
-                                        <p>{book.title}</p>
-                                        <p>{book.author.name}</p>
+                        <div className="relative h-full w-full overflow-y-auto scrollbar">
+                            <div>
+                                {booksInCart.map((book) => (
+                                    <div key={book.id} className="flex items-center justify-between py-2 px-3 h-[130px]">
+                                        <img src={book.book_image} alt={book.title} className="object-contain max-h-[100px] max-w-[100px]"/>
+                                        <div className="px-6">
+                                            <p>{book.title}</p>
+                                            <p>{book.author.name}</p>
+                                        </div>
+                                        
+                                        <IoIosRemoveCircleOutline className="text-red-600 cursor-pointer text-lg" onClick={() => handleRemoveItem(book)}/>
                                     </div>
-                                    
-                                    <IoMdAddCircleOutline className="text-green-600"/>
-                                    <IoIosRemoveCircleOutline className="text-red-600"/>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
+                            
+                            
+                            <button onClick={() => navigate('checkout')} className="bg-white w-full mt-auto">Proceed to Checkout</button>
                         </div>
+                        
                         
                     :
                         <p className="text-center text-2xl ">
