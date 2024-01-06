@@ -26,7 +26,7 @@ export const AuthProvider = ({children}) => {
     const [books, setBooks] = useState([])
     
 
-    // state to hold the book id which is to be used in get request api call
+    // state to hold the book id which is to be used in the bookdetailview and get request api call
     const [bookId, setBookId] = useState([])
     
 
@@ -34,7 +34,7 @@ export const AuthProvider = ({children}) => {
     const [searchResults, setSearchResults] = useState([])
 
 
-    // keyword will be used for filtering (sa ngayon ganito)
+    // keyword will be used for filtering
     const [keyword, setKeyword] = useState('')
 
 
