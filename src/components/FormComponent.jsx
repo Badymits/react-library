@@ -2,22 +2,40 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext"
+import { CheckoutContext } from "../pages/pagetab/CheckOut";
 
 import SecondPagePH from "./SecondPagePH";
 import ThirdPagePH from "./ThirdPagePH";
 import FirstPage from "./FirstPage";
 
+// =====================================================
+// READ IMPORTANT
+// this component will be responsible for the functionality of 
+// the multistep form ONLY and cannot communicate with the backend
+// =====================================================
+
 const FormComponent = () => {
     let { booksInCart } = useContext(AuthContext)
+
+    let {testVar, checkOutBooks, setCheckOutBooks} = useContext(CheckoutContext)
 
     const navigate = useNavigate()
 
     const [step, setStep] = useState(0)
     //let isFirstStep = true
+
+    {/* 
+        MULTI-STEP FORM:
+
+        1st step === Book Cart Confirmation (Rent Book, Purchase Book or Remove Book from Cart) 
+        2nd step === Input Address and Payment details
+        3rd step === Order Confirmation and Receipt
+        
+    */}
     const conditionalComponent = () => {
         switch(step){
             case 0:
-                return <FirstPage />;
+                return <FirstPage checkOutBooks={checkOutBooks} setCheckOutBooks={setCheckOutBooks}/>;
             case 1:
                 return <SecondPagePH />;
             case 2:
@@ -28,7 +46,7 @@ const FormComponent = () => {
     }
 
     const next = () => {
-        //if (step >= step.length - 1) return i
+        
         if (step > 0) {
             //isFirstStep = false
             //setStep(step + 1)
@@ -37,10 +55,7 @@ const FormComponent = () => {
     }
 
     const back = () => {
-        if (step <= 0) {
-            //isFirstStep = true
-            return step
-        }
+        if (step <= 0) return step
         setStep(step - 1)
     }
 
@@ -52,6 +67,7 @@ const FormComponent = () => {
                 <div className="relative">
                     <div className="h-[30px] bg-blue-200">
                         placeholder progress bar
+                        {testVar}
                     </div>
                     <div className="w-full h-[50px]   text-center  font-bold flex justify-between items-center px-1">
                         <button className={(step > 0) ?  "bg-blue-400 w-[100px] text-white py-3  rounded-lg" : 'bg-blue-200 text-black w-[100px] py-3 rounded-lg' } 
