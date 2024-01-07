@@ -113,7 +113,6 @@ const PageHeader = () => {
                             onChange={handleSearchBar}
                         />
                     </form>
-                    
                 </div>
                 <div className="relative">
                     <GiShoppingCart className="text-3xl hover:hover:bg-gray-200 rounded-full cursor-pointer" onClick={handleCartView}/>
@@ -136,20 +135,13 @@ const PageHeader = () => {
                                     </div>
                                 ))}
                             </div>
-                            
-                            
                             <button onClick={() => navigate('checkout')} className="bg-white w-full mt-auto">Proceed to Checkout</button>
-                        </div>
-                        
-                        
+                        </div>  
                     :
                         <p className="text-center text-2xl ">
                             0 items in cart
                         </p>
                     }
-                        
-                        
-                        
                     </div>
                 </div>
                 
