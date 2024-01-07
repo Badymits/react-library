@@ -7,8 +7,6 @@ import { AuthContext } from "../context/AuthContext"
 const FirstPage = ({ checkOutBooks, setCheckOutBooks }) => {
   let { booksInCart, setBooksInCart } = useContext(AuthContext)
 
-
-
   const handleBookCheckOutStatus = (status, book) => {
 
     // check first if it already exists in the state array
