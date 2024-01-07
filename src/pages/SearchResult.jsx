@@ -13,8 +13,9 @@ const SearchResult = () => {
     setBooks(JSON.parse(sessionStorage.getItem('books')))
   }, [searchResults])
 
+
   const handleAddToCartBtn = (book) => {
-    
+    // we dont want to add the book in the cart twice... or else
     if (booksInCart.includes(book)){
       alert('Item is already in cart!')
     } else {
