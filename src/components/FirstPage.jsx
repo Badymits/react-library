@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 
 import { AuthContext } from "../context/AuthContext"
 
@@ -46,6 +46,11 @@ const FirstPage = ({ checkOutBooks, setCheckOutBooks }) => {
     alert('Recorded')
   }
 
+  // when the checkOutBooks state changes, set the state to the session storage to retain data
+  useEffect(() => {
+    sessionStorage.setItem('recorded_status', JSON.stringify(checkOutBooks))
+  }, [checkOutBooks])
+
 
   const handleRemoveItem = (book) => {
 
@@ -56,6 +61,24 @@ const FirstPage = ({ checkOutBooks, setCheckOutBooks }) => {
     }
 
     alert(`'${book.title}' removed!!!`)
+    
+    //checking if item exists in session storage
+    if (sessionStorage.getItem('recorded_status')){
+
+      // retrieve the array of objects from storage
+      let recordedStatus = JSON.parse(sessionStorage.getItem('recorded_status'))
+      
+      // filter the books excluding the item that was removed via ID
+      let filteredBooks = recordedStatus.filter(item => item.book_id !== book.id)
+
+      // set the session storage with the removed book
+      sessionStorage.setItem('recorded_status', JSON.stringify(filteredBooks))
+
+      // set the state to its new array of recorded books
+      setCheckOutBooks(filteredBooks)
+    }
+    
+    // removing the book from the booksInCart state
     let filteredArray = booksInCart.filter(item => item !== book)
     setBooksInCart(filteredArray)
   }
