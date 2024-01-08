@@ -26,6 +26,11 @@ const SearchResult = () => {
     }
   }
 
+  // whenever the booksIncart changes or is appended, make sure to add it in local storage so it wont be gone on page refresh
+  useEffect(() => {
+    localStorage.setItem('cart_books', JSON.stringify(booksInCart))
+  }, [booksInCart])
+
   return (
         <div>
           <p className='font-bold'>Search Results for: {keyword}</p>
