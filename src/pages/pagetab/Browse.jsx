@@ -29,10 +29,11 @@ const Browse = () => {
   const resultCom = books.filter(book => book.genre.every(b => bookGenre.includes(b.name)))
   const resultFic = books.filter(book => book.genre.every(b => bookGenreFic.includes(b.name)))
 
-  // useEffect to change the data rendered if there are any inputs/results returned <from></from> the search bar
+  // useEffect to change the data rendered if there are any inputs/results returned from the search bar
   //... very scuffed way
   useEffect(() => {
     
+    // add try catch later
     if (searchResults){
       setChangeOutletView(true)
     }
