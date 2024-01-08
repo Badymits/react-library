@@ -36,9 +36,11 @@ export const AuthProvider = ({children}) => {
 
     // keyword will be used for filtering
     const [keyword, setKeyword] = useState('')
-
-
-    const [booksInCart, setBooksInCart] = useState([])
+    
+    // for the items to retain in the state when user refreshes page
+    const [booksInCart, setBooksInCart] = useState(() => 
+        localStorage.getItem('cart_books') ? JSON.parse(localStorage.getItem('cart_books')) : []
+    )
 
     // for both states, we check the local storage for it. 
     // check first if it is present, else just set to null
