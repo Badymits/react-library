@@ -18,7 +18,9 @@ const CheckOut = () => {
 
   // different from booksInCart array state since this will be utilized by a different model in the backend, 
   // that includes the rent or purchase status
-  const [checkOutBooks, setCheckOutBooks] = useState([])
+  const [checkOutBooks, setCheckOutBooks] = useState(() =>
+    sessionStorage.getItem('recorded_status') ? JSON.parse(sessionStorage.getItem('recorded_status')) : []
+  )
 
   console.log(checkOutBooks)
 
@@ -28,6 +30,8 @@ const CheckOut = () => {
     testVar: testVar,
     checkOutBooks: checkOutBooks,
     setCheckOutBooks: setCheckOutBooks,
+    checkOutFormData: checkOutFormData,
+    setCheckOutFormData: setCheckOutFormData,
   }
 
   return (
