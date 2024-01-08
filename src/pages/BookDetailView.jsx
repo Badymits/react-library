@@ -34,6 +34,11 @@ const BookDetailView = ({ title, loggedIn }) => {
     }
   }
 
+  // whenever the booksIncart changes or is appended, make sure to add it in local storage so it wont be gone on page refresh
+  useEffect(() => {
+    localStorage.setItem('cart_books', JSON.stringify(booksInCart))
+  }, [booksInCart])
+
   // retrieve book details from backend thru api endpoint
   useEffect(() => {
 
