@@ -15,6 +15,7 @@ import FirstPage from "./FirstPage";
 // =====================================================
 
 const FormComponent = () => {
+
     let { booksInCart } = useContext(AuthContext)
 
     let {testVar, checkOutBooks, setCheckOutBooks} = useContext(CheckoutContext)
@@ -46,6 +47,11 @@ const FormComponent = () => {
     }
 
     const next = () => {
+        // user cannot proceed to form without selecting output status for each book
+        if (checkOutBooks.length < booksInCart.length){
+            alert('make sure to set books to purchase or rent')
+            return step
+        }
         
         if (step > 0) {
             //isFirstStep = false
