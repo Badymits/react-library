@@ -2,10 +2,14 @@
 import { useContext, useEffect } from "react"
 
 import { AuthContext } from "../context/AuthContext"
+import { CheckoutContext } from "../pages/pagetab/CheckOut"
 
 // the first part is where the user wants to rent the book or purchase the book
 const FirstPage = ({ checkOutBooks, setCheckOutBooks }) => {
+
   let { booksInCart, setBooksInCart } = useContext(AuthContext)
+  let { amount, setAmount } = useContext(CheckoutContext)
+
 
   const handleBookCheckOutStatus = (status, book) => {
 
@@ -19,9 +23,12 @@ const FirstPage = ({ checkOutBooks, setCheckOutBooks }) => {
       // copy the state and place in new variable
       let newBookState = [...checkOutBooks]
 
-      // by using the index above, we update the book based on its index and change its output status
+      // by using the index above, we update the book based on its index and change its output status and price
       newBookState[bookIndex] = {
-        ...checkOutBooks[bookIndex], book_output_status: status
+        ...checkOutBooks[bookIndex], 
+          book_output_status: status,
+          book_price: getBookPrice(status),
+        
       }
 
       // set the state along with the updated object
@@ -38,18 +45,48 @@ const FirstPage = ({ checkOutBooks, setCheckOutBooks }) => {
             book_id: book.id,
             book_title: book.title, 
             book_output_status: status, 
+            book_price: getBookPrice(status)
           }],
           ...prevState
         ]
       )
     }
+    
     alert('Recorded')
+  }
+
+  // setting the price depending on the status of the book
+  const getBookPrice = (status) => {
+    if (status === 'Rent'){
+      return 250.00
+    } else if (status === 'Purchase'){
+      return 470.00
+    }
+    return 0.00
   }
 
   // when the checkOutBooks state changes, set the state to the session storage to retain data
   useEffect(() => {
     sessionStorage.setItem('recorded_status', JSON.stringify(checkOutBooks))
   }, [checkOutBooks])
+
+  useEffect(() => {
+    // immediately set the total amount to the first index rice
+    if (checkOutBooks.length === 1){
+      setAmount(checkOutBooks[0].book_price)
+    }
+    
+    // sums up the total amount of all books in state array
+    setAmount(Object.values(checkOutBooks).reduce((
+      price, {book_price}) => price + book_price, 0
+    ))
+    
+    // setting it back to 0 after user completes transaction
+    if (checkOutBooks.length === 0){
+      setAmount(0)
+    }
+    
+  }, [checkOutBooks, setAmount])
 
 
   const handleRemoveItem = (book) => {
@@ -135,6 +172,33 @@ const FirstPage = ({ checkOutBooks, setCheckOutBooks }) => {
           ))}
           {/* <button className="bg-[#6AB187] w-[20%] h-[50px] rounded-lg text-white hover:bg-[#4caa73] duration-100 my-10" type="submit">Checkout</button> */}
       </div>
+        {checkOutBooks.length > 0 && 
+          <div className="w-full bg-blue-200 mb-10">
+            <h1 className="text-3xl text-[#4caa73]">Cart Total</h1>
+            <table className="">
+              <tbody>
+                <tr>
+                  <td>Book Title</td>
+                  <td>Book Status</td>
+                  <td>Book Price</td>
+                </tr>
+                  {checkOutBooks.map((book) => (
+                    <tr key={book.book_id}>
+                      <td>{book.book_title}</td>
+                      <td>{book.book_output_status}</td>
+                      <td>{book.book_price}</td>
+                    </tr>
+                  ))}
+                <tr>
+                  <td></td>
+                  <td className="text-green-400 text-3xl">Price: </td>
+                  <td>{amount}</td>
+                </tr>
+              </tbody>
+              
+            </table>
+          </div>
+        }
     </div>
   )
 }
