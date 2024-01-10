@@ -18,12 +18,14 @@ const FormComponent = () => {
 
     let { booksInCart } = useContext(AuthContext)
 
-    let {testVar, checkOutBooks, setCheckOutBooks} = useContext(CheckoutContext)
+    let {checkOutBooks, setCheckOutBooks} = useContext(CheckoutContext)
+
+    let { setPaymentIntent } = useContext(CheckoutContext)
 
     const navigate = useNavigate()
 
+    // used for the pages of the multistep form
     const [step, setStep] = useState(0)
-    //let isFirstStep = true
 
     {/* 
         MULTI-STEP FORM:
@@ -52,11 +54,11 @@ const FormComponent = () => {
             alert('make sure to set books to purchase or rent')
             return step
         }
-        
-        if (step > 0) {
-            //isFirstStep = false
-            //setStep(step + 1)
-        } 
+
+        if (step === 0) {
+            console.log('STEP IS 1. I REPEAT STEP IS 1')
+            setPaymentIntent(true)
+        }
         setStep(step + 1)
     }
 
@@ -73,7 +75,6 @@ const FormComponent = () => {
                 <div className="relative">
                     <div className="h-[30px] bg-blue-200">
                         placeholder progress bar
-                        {testVar}
                     </div>
                     <div className="w-full h-[50px]   text-center  font-bold flex justify-between items-center px-1">
                         <button className={(step > 0) ?  "bg-blue-400 w-[100px] text-white py-3  rounded-lg" : 'bg-blue-200 text-black w-[100px] py-3 rounded-lg' } 
@@ -87,7 +88,7 @@ const FormComponent = () => {
                     
                     {/* this will render the current page of the multi step form */}
                     {conditionalComponent()}
-                    
+
                 </div>
                 
                 : 
