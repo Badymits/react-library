@@ -6,10 +6,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import axios from "axios";
 
 
-
 // eslint-disable-next-line no-undef
-const stripePromise = loadStripe(`${import.meta.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`)
-console.log(stripePromise)
 export const CheckoutContext = createContext()
 
 // =====================================================
@@ -19,15 +16,19 @@ export const CheckoutContext = createContext()
 // =====================================================
 
 const CheckOut = () => {
-  const testVar = 'It is working'
 
   const [checkOutFormData, setCheckOutFormData] = useState(null)
 
+  // used to pass to the backend
   const [amount, setAmount] = useState(0)
 
-
+  // storing stripe related values
   const [clientID, setClientID] = useState('')
-  const [clientSecretOne, setClientSecretOne] = useState('')
+  const [clientSecret, setClientSecret] = useState('')
+  const [stripePromise, setstripePromise] = useState('')
+  const [submitPayment, setSubmitPayment] = useState(false)
+
+  const [address, setAddress] = useState()
 
   // if set to true, will create a payment intent in the backend
   const [paymentIntent, setPaymentIntent] = useState(() => true)
@@ -41,27 +42,54 @@ const CheckOut = () => {
   console.log(checkOutBooks)
 
   useEffect(() => {
+    //console.log(`current amount in cart: ${(amount .toFixed(2))} !!!!`)
     const createPaymentIntent = async () => {
-      const data = await axios.get('http://127.0.0.1:8000/payments/create-payment-intent/')
-      return data
+      if (amount !== 0 ){
+        try{
+          const data = await axios.get('http://127.0.0.1:8000/payments/create-payment-intent/', {
+            params: {
+              'total_amount': Math.round(amount*100)
+            }
+           })
+          console.log(data)
+          return data
+        } catch (error) {
+          console.error(`Something wrong happpened: ${error}`)
+        }
+      }
     }
-     
-    if (paymentIntent === true){
+
+    console.log(`the payment intent: ${paymentIntent}`)
+    if (paymentIntent === true && checkOutBooks){
       createPaymentIntent().then((res) => {
         console.log(res.data)
         setClientID(res.data.client_secret.id)
-        setClientSecretOne(res.data.client_secret.client_secret)
+        setClientSecret(res.data.client_secret.client_secret)
+      }).catch((err) => {
+        console.error(err)
       })
     }
     
-  }, [paymentIntent, setClientID, setClientSecretOne])
+  }, [paymentIntent, setClientID, setClientSecret, checkOutBooks, amount])
 
+  useEffect(() => {
+    const getPubKey = async () => {
+      const response = await axios.get('http://127.0.0.1:8000/payments/get-pub-key/')
+      return response
+    }
 
-  console.log('potangina ', clientID)
-  console.log('potanginatalaga ',clientSecretOne)
+    if (paymentIntent === true){
+      getPubKey().then((res) => {
+        //console.log(`Response from backend get pub key: ${JSON.stringify(res.data.pub_key)}`)
+        setstripePromise(JSON.stringify(res.data.pub_key))
+      })
+    }
+    
+  }, [paymentIntent, setstripePromise])
+
+  console.log(clientSecret)
   
   let CheckoutData = {
-    testVar: testVar,
     checkOutBooks: checkOutBooks,
     setCheckOutBooks: setCheckOutBooks,
     checkOutFormData: checkOutFormData,
@@ -70,19 +98,29 @@ const CheckOut = () => {
     setPaymentIntent: setPaymentIntent,
     amount: amount,
     setAmount: setAmount,
-    clientSecretOne: clientSecretOne,
-    
+    clientSecret: clientSecret,
+    clientID: clientID,
+    submitPayment: submitPayment,
+    setSubmitPayment: setSubmitPayment,
+    address: address,
+    setAddress: setAddress,
   }
 
   return (
     <CheckoutContext.Provider value={CheckoutData}>
+      {clientSecret ? 
       
       <Elements
-        options={clientSecretOne}
-        stripe={stripePromise}
+        
+        options={{ clientSecret }}
+        stripe={loadStripe(stripePromise.split('"').join(''))}
       >
         <FormComponent />
-      </Elements>
+      </Elements> 
+      : 
+      <FormComponent />
+      }
+      
       
     </CheckoutContext.Provider>
   )
