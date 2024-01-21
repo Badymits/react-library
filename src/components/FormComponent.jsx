@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext"
 import { CheckoutContext } from "../pages/pagetab/CheckOut";
@@ -18,14 +18,18 @@ const FormComponent = () => {
 
     let { booksInCart } = useContext(AuthContext)
 
-    let {checkOutBooks, setCheckOutBooks} = useContext(CheckoutContext)
-
-    let { setPaymentIntent } = useContext(CheckoutContext)
+    let {checkOutBooks, setCheckOutBooks, setPaymentIntent} = useContext(CheckoutContext)
 
     const navigate = useNavigate()
 
     // used for the pages of the multistep form
     const [step, setStep] = useState(0)
+
+    const [isFormComplete, setIsFormComplete] = useState(false)
+
+    const changeFormStatus = (status) => {
+        setIsFormComplete(status)
+    }
 
     {/* 
         MULTI-STEP FORM:
@@ -40,7 +44,7 @@ const FormComponent = () => {
             case 0:
                 return <FirstPage checkOutBooks={checkOutBooks} setCheckOutBooks={setCheckOutBooks}/>;
             case 1:
-                return <SecondPagePH />;
+                return <SecondPagePH changeFormStatus={changeFormStatus}/>;
             case 2:
                 return <ThirdPagePH />;
             default:
@@ -48,7 +52,27 @@ const FormComponent = () => {
         }
     }
 
+    // when set to true, remove the disable attribute for the next-btn so user can proceed with checkout
+    useEffect(() => { 
+        if (isFormComplete){
+            console.log(isFormComplete)
+            let btn = document.getElementById('next-btn')
+            console.log("IT IS ALREADY TRUE WHY THE FUCK ISN'T IT CHANGING THE FUCKING BUTTON WHAT THE FUCK")
+            btn.disabled = false
+
+            btn.classList.remove('cursor-not-allowed')
+            btn.classList.remove('bg-blue-200')
+
+            btn.classList.add('cursor-pointer')
+            btn.classList.add('bg-blue-400')
+        } 
+
+    }, [isFormComplete])
+
     const next = () => {
+        console.log('current step: ', step)
+        
+        let btn = document.getElementById('next-btn')
         // user cannot proceed to form without selecting output status for each book
         if (checkOutBooks.length < booksInCart.length){
             alert('make sure to set books to purchase or rent')
@@ -56,8 +80,21 @@ const FormComponent = () => {
         }
 
         if (step === 0) {
-            console.log('STEP IS 1. I REPEAT STEP IS 1')
+            console.log('STEP IS 1. I REPEAT STEP IS: ', step)
             setPaymentIntent(true)
+
+            // disabling the button until user has completed the address form
+            if (isFormComplete === false) {
+                console.log('By default.... it is false')
+                btn.setAttribute("disabled", "")
+
+                btn.classList.remove('cursor-pointer')
+                btn.classList.remove('bg-blue-400')
+
+                btn.classList.add('cursor-not-allowed')
+                btn.classList.add('bg-blue-200')
+
+            }
         }
         setStep(step + 1)
     }
@@ -83,7 +120,16 @@ const FormComponent = () => {
                             Back
                         </button>
                         <div className="text-black text-3xl">{(step + 1)} / 3</div>
-                        <button className={(step === 2) ? "bg-[#6AB187] w-[100px] text-white py-3  rounded-lg" : "bg-blue-400 w-[100px] text-white py-3  rounded-lg"} onClick={next}>{(step === 2) ? 'Submit' : 'Next'}</button>
+                        <button className=
+                        {` cursor-pointer
+                            ${(step === 2) ? 
+                            "bg-[#6AB187] w-[100px] text-white py-3  rounded-lg" : 
+                            "bg-blue-400 w-[100px] text-white py-3  rounded-lg"}`}
+                            onClick={next}
+                            id="next-btn"
+                            >
+                            {(step === 2) ? 'Submit' : 'Next'}
+                        </button>
                     </div>
                     
                     {/* this will render the current page of the multi step form */}
