@@ -78,7 +78,7 @@ const Sidebar = () => {
                         'inactive-tab hover:hover-tab'
                         }>
                         <MdOutlineFeed className='mr-2'/>
-                        Feed
+                        Notifications
                     </NavLink>
                 </div>
                 <div className=''>
