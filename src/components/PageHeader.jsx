@@ -23,9 +23,6 @@ const PageHeader = () => {
   // cart display block, by default, it is closed
   const [cartView, setCartView] = useState(false)
 
-
-  console.log(booksInCart.length)
-
   const handleSearchBar = (e) => {
     
     setsearchBar(e.target.value)
