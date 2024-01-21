@@ -173,23 +173,28 @@ const FirstPage = ({ checkOutBooks, setCheckOutBooks }) => {
           {/* <button className="bg-[#6AB187] w-[20%] h-[50px] rounded-lg text-white hover:bg-[#4caa73] duration-100 my-10" type="submit">Checkout</button> */}
       </div>
         {checkOutBooks.length > 0 && 
-          <div className="w-full bg-blue-200 mb-10">
+          <div className="w-full  mb-10">
             <h1 className="text-3xl text-[#4caa73]">Cart Total</h1>
-            <table className="">
+            <table className="w-full h-[200px] text-center">
               <tbody>
-                <tr>
+                <tr className="w-[50%]">
                   <td>Book Title</td>
                   <td>Book Status</td>
                   <td>Book Price</td>
                 </tr>
                   {checkOutBooks.map((book) => (
-                    <tr key={book.book_id}>
+                    <tr key={book.book_id} >
                       <td>{book.book_title}</td>
-                      <td>{book.book_output_status}</td>
+                      {book.book_output_status === 'Rent' ? 
+                        <td className="bg-yellow-300">{book.book_output_status}</td> 
+                        :
+                        <td className="bg-green-300">{book.book_output_status}</td>
+                      }
+                     
                       <td>{book.book_price}</td>
                     </tr>
                   ))}
-                <tr>
+                <tr className="text-center">
                   <td></td>
                   <td className="text-green-400 text-3xl">Price: </td>
                   <td>{amount}</td>
