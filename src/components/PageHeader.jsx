@@ -10,8 +10,8 @@ import {  IoIosRemoveCircleOutline  } from "react-icons/io";
 
 const PageHeader = () => {
 
-  let { handleSearch, booksInCart, setBooksInCart } = useContext(AuthContext)
-
+  let { handleSearch, booksInCart, setBooksInCart, setRemovedItemArray } = useContext(AuthContext)
+  
   const navigate = useNavigate()
 
   // upon user scroll, will set the css classes for navbar
@@ -43,6 +43,33 @@ const PageHeader = () => {
 
   const handleRemoveItem = (book) => {
     alert(`'${book.title}' removed!!!`)
+
+    // immediately updates the price in the checkout page when user removes item from
+    if (localStorage.getItem('cart_books')){
+        let cart_books = JSON.parse(localStorage.getItem('cart_books'))
+
+        let filtered_books = cart_books.filter(item => item.id !== book.id)
+
+        localStorage.setItem('cart_books', filtered_books)
+
+    }
+
+    // this will also reflect on the first page of the multistep checkout form
+    if (sessionStorage.getItem('recorded_status')){
+
+        // retrieve the array of objects from storage
+        let recordedStatus = JSON.parse(sessionStorage.getItem('recorded_status'))
+        
+        // filter the books excluding the item that was removed via ID
+        let filteredBooks = recordedStatus.filter(item => item.book_id !== book.id)
+  
+        // set the session storage with the removed book
+        sessionStorage.setItem('recorded_status', JSON.stringify(filteredBooks))
+        
+        // this state will be used in the checkout context
+        setRemovedItemArray(true)
+      }
+
     let filteredArray = booksInCart.filter(item => item !== book)
     setBooksInCart(filteredArray)
   }
