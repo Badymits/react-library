@@ -71,7 +71,7 @@ const FirstPage = ({ checkOutBooks, setCheckOutBooks }) => {
   }, [checkOutBooks])
 
   useEffect(() => {
-    // immediately set the total amount to the first index rice
+    // immediately set the total amount to the first index price
     if (checkOutBooks.length === 1){
       setAmount(checkOutBooks[0].book_price)
     }
@@ -132,8 +132,7 @@ const FirstPage = ({ checkOutBooks, setCheckOutBooks }) => {
                   </div>
                   
                   <div className="px-2 w-[60%] h-[120px]  text-2xl ">
-                      {
-                        (checkOutBooks.find(item => item.book_title === book.title)) && 
+                      {checkOutBooks.find(item => item.book_title === book.title) && 
                         <p className={`text-black text-sm w-[150px] text-center mb-4 font-bold
                           ${checkOutBooks.find(item => item.book_title === book.title).book_output_status  === 'Rent' ? 
                           "bg-yellow-200 " : 
@@ -141,7 +140,7 @@ const FirstPage = ({ checkOutBooks, setCheckOutBooks }) => {
                           `
                         }>
                           Marked as {(checkOutBooks.find(item => item.book_title === book.title).book_output_status )}
-                        </p>
+                        </p> 
                       }
 
                       <p className="font-light">{book.title}</p>
@@ -172,7 +171,7 @@ const FirstPage = ({ checkOutBooks, setCheckOutBooks }) => {
           ))}
           {/* <button className="bg-[#6AB187] w-[20%] h-[50px] rounded-lg text-white hover:bg-[#4caa73] duration-100 my-10" type="submit">Checkout</button> */}
       </div>
-        {checkOutBooks.length > 0 && 
+        {checkOutBooks.length > 0 ? 
           <div className="w-full  mb-10">
             <h1 className="text-3xl text-[#4caa73]">Cart Total</h1>
             <table className="w-full h-[200px] text-center">
@@ -189,8 +188,7 @@ const FirstPage = ({ checkOutBooks, setCheckOutBooks }) => {
                         <td className="bg-yellow-300">{book.book_output_status}</td> 
                         :
                         <td className="bg-green-300">{book.book_output_status}</td>
-                      }
-                     
+                      }                   
                       <td>{book.book_price}</td>
                     </tr>
                   ))}
@@ -202,6 +200,9 @@ const FirstPage = ({ checkOutBooks, setCheckOutBooks }) => {
               </tbody>
               
             </table>
+          </div> :
+          <div>
+            <p>No data </p>
           </div>
         }
     </div>
