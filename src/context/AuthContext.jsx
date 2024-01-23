@@ -37,6 +37,9 @@ export const AuthProvider = ({children}) => {
     // keyword will be used for filtering
     const [keyword, setKeyword] = useState('')
     
+    // this state will be used in the checkout context since pageheader.jsx is not a child of the checkoutcontext provider
+    const [removedItemArray, setRemovedItemArray] = useState(false)
+    
     // for the items to retain in the state when user refreshes page
     const [booksInCart, setBooksInCart] = useState(() => 
         localStorage.getItem('cart_books') ? JSON.parse(localStorage.getItem('cart_books')) : []
@@ -209,6 +212,8 @@ export const AuthProvider = ({children}) => {
         setKeyword: setKeyword,
         setBooksInCart: setBooksInCart,
         booksInCart: booksInCart,
+        removedItemArray: removedItemArray,
+        setRemovedItemArray: setRemovedItemArray,
     }
 
 
