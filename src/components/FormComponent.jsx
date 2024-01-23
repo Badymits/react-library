@@ -23,7 +23,7 @@ const FormComponent = () => {
     const navigate = useNavigate()
 
     // used for the pages of the multistep form
-    const [step, setStep] = useState(0)
+    const [step, setStep] = useState(localStorage.getItem('step') ? parseInt(localStorage.getItem('step')) : localStorage.setItem('step', 0) )
 
     const [isFormComplete, setIsFormComplete] = useState(false)
 
@@ -41,23 +41,25 @@ const FormComponent = () => {
     */}
     const conditionalComponent = () => {
         switch(step){
-            case 0:
+            case 0:       
                 return <FirstPage checkOutBooks={checkOutBooks} setCheckOutBooks={setCheckOutBooks}/>;
-            case 1:
+            case 1:                
                 return <SecondPagePH changeFormStatus={changeFormStatus}/>;
-            case 2:
+            case 2:                
                 return <ThirdPagePH />;
-            default:
+            default:               
                 return <FirstPage />
         }
     }
 
     // when set to true, remove the disable attribute for the next-btn so user can proceed with checkout
     useEffect(() => { 
+        let btn = document.getElementById('next-btn')
+
+        // if the form is complete, then the btn is enabled permanently 
         if (isFormComplete){
-            console.log(isFormComplete)
-            let btn = document.getElementById('next-btn')
-            console.log("IT IS ALREADY TRUE WHY THE FUCK ISN'T IT CHANGING THE FUCKING BUTTON WHAT THE FUCK")
+            //console.log(isFormComplete)
+            
             btn.disabled = false
 
             btn.classList.remove('cursor-not-allowed')
@@ -67,19 +69,9 @@ const FormComponent = () => {
             btn.classList.add('bg-blue-400')
         } 
 
-    }, [isFormComplete])
-
-    const next = () => {
-        console.log('current step: ', step)
-        
-        let btn = document.getElementById('next-btn')
-        // user cannot proceed to form without selecting output status for each book
-        if (checkOutBooks.length < booksInCart.length){
-            alert('make sure to set books to purchase or rent')
-            return step
-        }
-
-        if (step === 0) {
+        console.log(step)
+        // whenever the step is on the 1st step, set the next btn to disabled and adjust the tailwind css
+        if (step === 1) {
             console.log('STEP IS 1. I REPEAT STEP IS: ', step)
             setPaymentIntent(true)
 
@@ -95,13 +87,41 @@ const FormComponent = () => {
                 btn.classList.add('bg-blue-200')
 
             }
+        
+        // whenever the multi step form is not on page 1, then enable the next btn 
+        } else {
+            if (btn){
+                btn.disabled = false
+
+                btn.classList.remove('cursor-not-allowed')
+                btn.classList.remove('bg-blue-200')
+
+                btn.classList.add('cursor-pointer')
+                btn.classList.add('bg-blue-400')
+            }
+            
+        }
+
+    }, [isFormComplete, step, setPaymentIntent])
+    
+
+    const next = () => {
+        console.log('current step: ', step)
+        
+        
+        // user cannot proceed to form without selecting output status for each book
+        if (checkOutBooks.length < booksInCart.length){
+            alert('make sure to set books to purchase or rent')
+            return step
         }
         setStep(step + 1)
+        localStorage.setItem('step', step + 1)
     }
 
     const back = () => {
         if (step <= 0) return step
         setStep(step - 1)
+        localStorage.setItem('step', step - 1)
     }
 
   return (
