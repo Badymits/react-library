@@ -1,9 +1,10 @@
-import { createContext, useEffect, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import FormComponent from "../../components/FormComponent"
 
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 
 // eslint-disable-next-line no-undef
@@ -17,6 +18,8 @@ export const CheckoutContext = createContext()
 
 const CheckOut = () => {
 
+  let { removedItemArray, setRemovedItemArray } = useContext(AuthContext)
+
   const [checkOutFormData, setCheckOutFormData] = useState(null)
 
   // used to pass to the backend
@@ -27,6 +30,8 @@ const CheckOut = () => {
   const [clientSecret, setClientSecret] = useState('')
   const [stripePromise, setstripePromise] = useState('')
   const [submitPayment, setSubmitPayment] = useState(false)
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const [address, setAddress] = useState()
 
@@ -40,6 +45,11 @@ const CheckOut = () => {
   )
 
   console.log(checkOutBooks)
+
+  // if (address)
+  // {
+  //   console.log(`address is: ${JSON.stringify(address).split(null).join('')}`)
+  // }
 
   useEffect(() => {
     //console.log(`current amount in cart: ${(amount .toFixed(2))} !!!!`)
@@ -60,17 +70,29 @@ const CheckOut = () => {
     }
 
     console.log(`the payment intent: ${paymentIntent}`)
-    if (paymentIntent === true && checkOutBooks){
+    if ((checkOutBooks) || window.PerformanceNavigationTiming.type === "reload"){
       createPaymentIntent().then((res) => {
+        setIsLoading(true)
         console.log(res.data)
+
         setClientID(res.data.client_secret.id)
         setClientSecret(res.data.client_secret.client_secret)
+
       }).catch((err) => {
         console.error(err)
+      }).finally(function () {
+        setIsLoading(false)
       })
     }
     
   }, [paymentIntent, setClientID, setClientSecret, checkOutBooks, amount])
+
+  // when the removedItemarray makes changes, change state to the session storage array
+  useEffect(() => {
+      setCheckOutBooks(JSON.parse(sessionStorage.getItem('recorded_status')))
+      setRemovedItemArray(false)
+    
+  }, [removedItemArray, setRemovedItemArray])
 
   useEffect(() => {
     const getPubKey = async () => {
@@ -80,7 +102,7 @@ const CheckOut = () => {
 
     if (paymentIntent === true){
       getPubKey().then((res) => {
-        //console.log(`Response from backend get pub key: ${JSON.stringify(res.data.pub_key)}`)
+        
         setstripePromise(JSON.stringify(res.data.pub_key))
       })
     }
@@ -108,7 +130,7 @@ const CheckOut = () => {
 
   return (
     <CheckoutContext.Provider value={CheckoutData}>
-      {clientSecret ? 
+      {(clientSecret && stripePromise && !isLoading) ?
       
       <Elements
         
@@ -117,9 +139,9 @@ const CheckOut = () => {
       >
         <FormComponent />
       </Elements> 
-      : 
-      <FormComponent />
-      }
+      :
+      <FormComponent/>
+    }
       
       
     </CheckoutContext.Provider>
