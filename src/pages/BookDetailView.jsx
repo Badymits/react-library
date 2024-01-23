@@ -23,8 +23,8 @@ const BookDetailView = ({ title, loggedIn }) => {
   }
 
   const handleAddToCartBtn = (book) => {
-    
-    if (booksInCart.includes(book)){
+    // utilize the some filter so that data will retain across updates (this is because when user adds book 1 to cart and page refreshes, previous code will not retain data, so book 1 duplicates in cart)
+    if (booksInCart.some(item => item.id === book.id)){
       alert('Item is already in cart!')
     } else {
       setBooksInCart( prevState => 
@@ -63,7 +63,7 @@ const BookDetailView = ({ title, loggedIn }) => {
             {
               bookDetailComp ?
               
-              <div className='w-full h-screen bg-gray-200 flex flex-col items-center pt-[35px]  px-4 text-justify align-center gap-6'>
+              <div className='w-full h-screen bg-gray-200 flex flex-col items-center pt-[35px]  px-4 text-justify align-center gap-6' key={bookDetailComp.id}>
                 <IoMdClose className='text-2xl absolute top-10 right-5 hover:bg-gray-200 rounded-full cursor-pointer' onClick={() => closeRightPanel()}/>
                 
                 <img src={bookDetailComp.book_image} alt={bookDetailComp.title} className='max-h-[350px] max-w-[350px]' />
