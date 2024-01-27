@@ -12,7 +12,7 @@ import { BiLogOut  } from "react-icons/bi";
 
 const Sidebar = () => {
 
-  let {user, logoutUser} = useContext(AuthContext)
+  let {user, logoutUser, notificationArray} = useContext(AuthContext)
 
   const [activeNotif, setActiveNotif] = useState(false)
   //const [activeTab, setActiveTab] = useState('')
@@ -26,7 +26,6 @@ const Sidebar = () => {
   
   // if the pathname or url is included in the list, then return null
   if (withoutSidebarRoutes.some((item) => pathname.includes(item))) return null;
-
   return (
     <div className='h-[100vh]'>
         <div className='flex flex-col items-center justify-center py-4 '>
@@ -36,16 +35,26 @@ const Sidebar = () => {
                     Athenaeum
                 </h1>
                 <IoMdNotificationsOutline className='cursor-pointer absolute right-1 text-3xl hover:bg-gray-200 rounded-full' onClick={() => setActiveNotif(!activeNotif)} />
-                <div className={activeNotif ? 'block absolute top-12 right-2 bg-[#dddbdb] w-[240px]' : 'hidden' }>
-                    <div>
-                        notif block
+                <span className='text-xl text-red-500 absolute top-1 right-1 z-50'>{notificationArray ? notificationArray.length : ''}</span>
+                <div className={activeNotif ? 'block absolute top-12 right-2 bg-[#dddbdb] w-[240px] border-2 border-black rounded-md' : 'hidden ' }>
+                    <div className='bg-[#faf2f2] border-b-2 border-black'>
+                        <NavLink to='notification'>See all notifications{notificationArray.length}</NavLink>
                     </div>
-                    <div>
-                        notif block
-                    </div>
-                    <div>
-                        notif block
-                    </div>
+                    <ul>
+                    {notificationArray.map((notif) => (
+                        <li key={notif.id} className='cursor-pointer hover:bg-gray-300 duration-200'>
+                            Para kay: {notif.user}
+                            <br />
+                            
+                            {notif.message} 
+                            <br />
+                            {notif.date} || {notif.time}
+                            <hr className='border-black border-1'/>
+                        </li>
+                    ))}
+                    </ul>
+                    
+                    
                 </div>
             </div>
             
@@ -73,7 +82,7 @@ const Sidebar = () => {
                     </NavLink>
                 </div>
                 <div className=''>
-                    <NavLink to='/feed' className={({isActive}) => isActive ?
+                    <NavLink to='/notification' className={({isActive}) => isActive ?
                         'flex items-center gap-3 px-24 active-tab' :
                         'inactive-tab hover:hover-tab'
                         }>
