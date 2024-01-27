@@ -16,16 +16,17 @@ import FirstPage from "./FirstPage";
 
 const FormComponent = () => {
 
-    let { booksInCart } = useContext(AuthContext)
+    let { booksInCart, setBooksInCart } = useContext(AuthContext)
 
-    let {checkOutBooks, setCheckOutBooks, setPaymentIntent} = useContext(CheckoutContext)
+    let {checkOutBooks, setCheckOutBooks, setPaymentIntent, paymentMode, setPaymentMode, setAddress} = useContext(CheckoutContext)
 
     const navigate = useNavigate()
 
     // used for the pages of the multistep form
-    const [step, setStep] = useState(localStorage.getItem('step') ? parseInt(localStorage.getItem('step')) : localStorage.setItem('step', 0) )
+    const [step, setStep] = useState(0 )
 
     const [isFormComplete, setIsFormComplete] = useState(false)
+    const [finalBtn, setFinalBtn] = useState(false)
 
     const changeFormStatus = (status) => {
         setIsFormComplete(status)
@@ -44,7 +45,7 @@ const FormComponent = () => {
             case 0:       
                 return <FirstPage checkOutBooks={checkOutBooks} setCheckOutBooks={setCheckOutBooks}/>;
             case 1:                
-                return <SecondPagePH changeFormStatus={changeFormStatus}/>;
+                return <SecondPagePH changeFormStatus={changeFormStatus} setStep={setStep} isFormComplete={isFormComplete} finalBtn={finalBtn}/>;
             case 2:                
                 return <ThirdPagePH />;
             default:               
@@ -52,62 +53,49 @@ const FormComponent = () => {
         }
     }
 
-    // when set to true, remove the disable attribute for the next-btn so user can proceed with checkout
+    
     useEffect(() => { 
+        
         let btn = document.getElementById('next-btn')
 
-        // if the form is complete, then the btn is enabled permanently 
-        if (isFormComplete){
-            //console.log(isFormComplete)
-            
-            btn.disabled = false
-
-            btn.classList.remove('cursor-not-allowed')
-            btn.classList.remove('bg-blue-200')
-
-            btn.classList.add('cursor-pointer')
-            btn.classList.add('bg-blue-400')
-        } 
-
-        console.log(step)
         // whenever the step is on the 1st step, set the next btn to disabled and adjust the tailwind css
         if (step === 1) {
             console.log('STEP IS 1. I REPEAT STEP IS: ', step)
             setPaymentIntent(true)
+            btn.classList.add('bg-white')
 
-            // disabling the button until user has completed the address form
-            if (isFormComplete === false) {
-                console.log('By default.... it is false')
-                btn.setAttribute("disabled", "")
-
-                btn.classList.remove('cursor-pointer')
-                btn.classList.remove('bg-blue-400')
-
-                btn.classList.add('cursor-not-allowed')
-                btn.classList.add('bg-blue-200')
-
-            }
+            btn.classList.add('cursor-default')
         
         // whenever the multi step form is not on page 1, then enable the next btn 
-        } else {
-            if (btn){
-                btn.disabled = false
+        } 
 
-                btn.classList.remove('cursor-not-allowed')
-                btn.classList.remove('bg-blue-200')
-
-                btn.classList.add('cursor-pointer')
-                btn.classList.add('bg-blue-400')
-            }
-            
-        }
-
-    }, [isFormComplete, step, setPaymentIntent])
+    }, [isFormComplete, 
+        step, 
+        setPaymentIntent ])
     
 
     const next = () => {
         console.log('current step: ', step)
         
+        if (paymentMode === 'card' && isFormComplete && step === 1){
+            console.log('IS THIS EVEN RUNNING POTANGINA')
+            setFinalBtn(true)
+            var currentstep = 1;
+            setStep(currentstep)
+            return step
+        }
+
+        if (step === 2){
+            setBooksInCart([])
+            setCheckOutBooks([])
+            setPaymentIntent(false)
+            setPaymentMode('')
+            setAddress('')
+            setStep(0)
+            sessionStorage.removeItem('recorded_status')
+            localStorage.removeItem('cart_books')
+            navigate('/library/home')
+        }
         
         // user cannot proceed to form without selecting output status for each book
         if (checkOutBooks.length < booksInCart.length){
@@ -116,6 +104,8 @@ const FormComponent = () => {
         }
         setStep(step + 1)
         localStorage.setItem('step', step + 1)
+
+        
     }
 
     const back = () => {
@@ -130,10 +120,7 @@ const FormComponent = () => {
             
             {booksInCart.length > 0 ? 
                 <div className="relative">
-                    <div className="h-[30px] bg-blue-200">
-                        placeholder progress bar
-                    </div>
-                    <div className="w-full h-[50px]   text-center  font-bold flex justify-between items-center px-1">
+                    <div className="w-full h-[50px]   text-center  font-bold flex justify-between items-center px-1 ">
                         <button className={(step > 0) ?  "bg-blue-400 w-[100px] text-white py-3  rounded-lg" : 'bg-blue-200 text-black w-[100px] py-3 rounded-lg' } 
                             onClick={back}
                         >
@@ -141,17 +128,19 @@ const FormComponent = () => {
                         </button>
                         <div className="text-black text-3xl">{(step + 1)} / 3</div>
                         <button className=
-                        {` cursor-pointer
-                            ${(step === 2) ? 
-                            "bg-[#6AB187] w-[100px] text-white py-3  rounded-lg" : 
-                            "bg-blue-400 w-[100px] text-white py-3  rounded-lg"}`}
+                        {(step === 2) ? "bg-[#6AB187]  text-white py-3 w-[100px]  rounded-lg" : "bg-blue-400  text-white py-3 w-[100px]  rounded-lg " }
                             onClick={next}
                             id="next-btn"
+                            type="submit"
+                            form="my-stripe-form"
                             >
-                            {(step === 2) ? 'Submit' : 'Next'}
+                            {(step === 1) ? 'Submit' : 'Next'}
+                            {(step === 2) && 'Home Page'  }
+                            
                         </button>
                     </div>
                     
+                   
                     {/* this will render the current page of the multi step form */}
                     {conditionalComponent()}
 
