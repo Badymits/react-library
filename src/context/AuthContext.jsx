@@ -62,6 +62,15 @@ export const AuthProvider = ({children}) => {
       localStorage.getItem('auth_token') ? true : false
     )
     
+    // redis at home. Instead of creating websockets, since this application will only take in notifications made for books in checkout, we can just store notifications in a state array
+    const [notificationArray, setNotificationArray] = useState(
+      localStorage.getItem('notifs') ? JSON.parse(localStorage.getItem('notifs')) : []
+    )
+
+    useEffect(() => {
+      localStorage.setItem('notifs', JSON.stringify(notificationArray))
+    }, [notificationArray])
+    
     // data coming from backend, set to state to be accessed by library
     useEffect(() => {
       getBookList().then(res => {
@@ -214,6 +223,8 @@ export const AuthProvider = ({children}) => {
         booksInCart: booksInCart,
         removedItemArray: removedItemArray,
         setRemovedItemArray: setRemovedItemArray,
+        notificationArray: notificationArray,
+        setNotificationArray: setNotificationArray,
     }
 
 
