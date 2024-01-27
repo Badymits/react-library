@@ -18,6 +18,7 @@ export const CheckoutContext = createContext()
 
 const CheckOut = () => {
 
+  let { user } = useContext(AuthContext)
   let { removedItemArray, setRemovedItemArray } = useContext(AuthContext)
 
   const [checkOutFormData, setCheckOutFormData] = useState(null)
@@ -28,8 +29,9 @@ const CheckOut = () => {
   // storing stripe related values
   const [clientID, setClientID] = useState('')
   const [clientSecret, setClientSecret] = useState('')
-  const [stripePromise, setstripePromise] = useState('')
+  const [stripePromise, setstripePromise] = useState()
   const [submitPayment, setSubmitPayment] = useState(false)
+  const [checkoutSession, setCheckOutSession] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -37,6 +39,8 @@ const CheckOut = () => {
 
   // if set to true, will create a payment intent in the backend
   const [paymentIntent, setPaymentIntent] = useState(() => true)
+
+  const [paymentMode, setPaymentMode] = useState('') // to determine which element should be rendered 
 
   // different from booksInCart array state since this will be utilized by a different model in the backend, 
   // that includes the rent or purchase status
@@ -109,6 +113,27 @@ const CheckOut = () => {
     
   }, [paymentIntent, setstripePromise])
 
+  useEffect(() => {
+    
+    const confirmCheckOutSession = async () => {
+      
+      const res = await axios({
+        method: 'POST',
+        url: 'http://127.0.0.1:8000/payments/checkout-session/',
+        data: {
+          email: user.email,
+          items: checkOutBooks
+        }
+      })
+      return res
+    }
+    if (checkoutSession){
+      confirmCheckOutSession()
+    } else {
+      console.log('HINDI NAG TRUE BOBO')
+    }
+  }, [checkoutSession, checkOutBooks, user])
+
   console.log(clientSecret)
   
   let CheckoutData = {
@@ -126,6 +151,12 @@ const CheckOut = () => {
     setSubmitPayment: setSubmitPayment,
     address: address,
     setAddress: setAddress,
+    paymentMode: paymentMode,
+    setPaymentMode: setPaymentMode,
+    checkoutSession: checkoutSession,
+    setCheckOutSession: setCheckOutSession,
+    isLoading: isLoading,
+    setIsLoading: setIsLoading,
   }
 
   return (
