@@ -1,6 +1,5 @@
 import { useContext } from "react"
 import { Link, useOutlet } from 'react-router-dom'
-import PageHeader from "../components/PageHeader"
 import { AuthContext } from "../context/AuthContext"
 
 
@@ -12,9 +11,7 @@ const Feed = () => {
   return (
     <section className='xl:max-w-[930px] lg:max-w-[760px]'>
 
-        <div className='border-b-2 border-gray-400 z-[100] sticky w-full top-0  h-[80px] '>
-            <PageHeader />
-        </div>
+        
         {
             outlet // show nested routes if true
             || 
