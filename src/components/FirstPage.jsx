@@ -45,6 +45,7 @@ const FirstPage = ({ checkOutBooks, setCheckOutBooks }) => {
             book_id: book.id,
             book_title: book.title, 
             book_output_status: status, 
+            book_image: book.book_image,
             book_price: getBookPrice(status)
           }],
           ...prevState
