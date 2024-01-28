@@ -22,21 +22,21 @@ const NotifDetails = () => {
   console.log(notifDetail)
   return (
     <div className='mx-2'>
-        {id}
         <h1 className='text-4xl text-green-500 pb-12'>Notification Details</h1>
         {notifDetail &&
             <div>
-                {/* Reminder tomorrow to add image to checkout books */}
+                
                 <p className='text-lg'>{notifDetail.message}</p>
-                <p className='text-2xl pt-4'>Books Rented/Purchased: {notifDetail.books.map((book) => (
-                    <p key={book.id}>
+                <div className='text-2xl pt-4'>Books Rented/Purchased: {notifDetail.books.map((book) => (
+                    <div key={book.id} className='h-[350px]  hover:bg-gray-200 hover:border-2 duration-100 flex items-center px-2 my-10 gap-4 cursor-pointer'>
+                      <img src={book.book_image} alt={book.book_title} className='object-contain max-h-[250px] max-w-[250px] hover:max-h-[230px] hover:max-w-[230px] duraiton-300'/>
                         <p>{book.book_title}</p>
                         <p>{book.book_price}.00</p>
-                        <p>{book.book_output_status}d</p>
+                        <p>{book.book_output_status}</p>
                         
-                    </p>
+                    </div>
                     
-                ))}</p>
+                ))}</div>
             </div>
         }
         
