@@ -15,6 +15,8 @@ import BookDetailView from './pages/BookDetailView';
 import Home from './pages/pagetab/Home';
 import SearchResult from './pages/SearchResult';
 import NotifDetails from './pages/NotifDetails';
+import EditProfile from './pages/EditProfile';
+import Settings from './Settings';
 
 
 const MainComponent = () => {
@@ -55,7 +57,10 @@ const MainComponent = () => {
                     <Route path='/notification' element={<Feed />} >
                       <Route path=':id' element={<NotifDetails />}/>
                     </Route>
-                    <Route path='/profile' element={<Profile />}/>
+                    <Route path='/profile' element={<Profile />}>
+                      <Route path='edit-profile' element={<EditProfile />}/>
+                    </Route>
+                    <Route path='/settings' element={<Settings />}/>
                 </Route>
                 <Route path='/auth/login' element={<LoginPage />}/>
                 <Route path='/auth/register' element={<RegisterPage />}/>
